@@ -1,0 +1,14 @@
+@if (notifyService.notification()) {
+  <div
+    class="fixed bottom-5 z-20 flex items-center font-semibold space-x-1 px-4 py-2 right-5 border rounded-md
+    {{
+      notifyService.notification()?.type === 'success'
+        ? 'bg-green-100 border-green-500 text-green-700'
+        : 'bg-red-100 border-red-500 text-red-700'
+    }}"
+  >
+    <p class="">
+      {{ notifyService.notification()?.message }}
+    </p>
+  </div>
+}

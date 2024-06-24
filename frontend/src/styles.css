@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form-input {
+  @apply w-full rounded-lg border-2 border-black/50 bg-white px-3 py-[0.41rem] text-black outline-none transition duration-200;
+}
+
+.input-placeholder {
+  @apply unselectable absolute left-3 top-2 cursor-text text-nowrap bg-white px-1 text-black/50 duration-200;
+}
+
+.form-input:focus ~ .input-placeholder {
+  @apply -translate-y-[1.3rem] scale-[0.65] transform cursor-default text-black;
+}
+
+.form-input:valid ~ .input-placeholder {
+  @apply -translate-y-[1.3rem] scale-[0.65];
+}
+
+.form-input:focus {
+  @apply border-black text-black;
+}
+
+.underline-url {
+  @apply relative inline cursor-pointer font-semibold text-black/50 before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:bg-black/60 before:transition before:duration-300 before:ease-in-out hover:text-black/75 hover:before:origin-bottom-left hover:before:scale-x-100;
+}
+
+.unselectable {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.hide-scroll {
+  scrollbar-width: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin2 {
+  0% {
+    stroke-dasharray: 1, 800;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 400, 400;
+    stroke-dashoffset: -200px;
+  }
+  100% {
+    stroke-dasharray: 800, 1;
+    stroke-dashoffset: -800px;
+  }
+}
+
+.spin2 {
+  transform-origin: center;
+  animation:
+    spin2 1.5s ease-in-out infinite,
+    spin 2s linear infinite;
+  animation-direction: alternate;
+}

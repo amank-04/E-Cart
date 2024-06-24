@@ -1,0 +1,35 @@
+<div
+  class="grid grid-cols-1 gap-4 px-10 *:cursor-pointer md:grid-cols-2 lg:grid-cols-3"
+>
+  <div
+    routerLink="/admin/orders"
+    class="w-full scale-[0.97] space-y-5 rounded-md bg-white px-5 py-2 text-gray-600 shadow-md duration-200 hover:scale-105 hover:shadow-lg"
+  >
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-800">Sales</h3>
+      <p class="text-xs">{{ ordersCount | indNum }} Orders</p>
+    </div>
+    <p>{{ totalSales ? "₹ " + (totalSales | indNum) : "0" }}</p>
+  </div>
+
+  <div
+    routerLink="/admin/customers"
+    class="w-full scale-[0.97] space-y-5 rounded-md bg-white px-5 py-2 text-gray-600 shadow-md duration-200 hover:scale-105 hover:shadow-lg"
+  >
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-800">Customers</h3>
+      <p class="text-xs">₹ {{ avgValue | indNum }} Average Value</p>
+    </div>
+    <p>{{ totalCustomers | indNum }}</p>
+  </div>
+
+  <div
+    routerLink="/admin/products"
+    class="flex w-full scale-[0.97] flex-col justify-between space-y-5 rounded-md bg-white px-5 py-2 text-gray-600 shadow-md duration-200 hover:scale-105 hover:shadow-lg"
+  >
+    <div class="">
+      <h3 class="text-2xl font-semibold text-gray-800">Products</h3>
+    </div>
+    <p>{{ totalProducts | indNum }}</p>
+  </div>
+</div>

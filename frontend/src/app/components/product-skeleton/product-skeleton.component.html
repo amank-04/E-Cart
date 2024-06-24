@@ -1,0 +1,40 @@
+<div
+  class="mx-5 my-4 grid max-w-7xl grid-flow-row-dense grid-cols-1 gap-x-2 gap-y-3 px-3 sm:grid-cols-2 sm:gap-x-4 md:grid-cols-3 lg:grid-cols-4 lg:px-0"
+>
+  @for (product of products; track $index) {
+    <div class="rounded-xl bg-white py-2 shadow-md md:px-2">
+      <div
+        class="m-1 mx-auto flex h-full max-w-56 animate-pulse flex-col justify-between bg-white"
+      >
+        <!-- Product Image -->
+        <div class="h-36 cursor-pointer rounded-lg bg-black/5 p-2"></div>
+
+        <!-- Product Details -->
+        <div class="mb-3">
+          <div class="m-2 flex flex-col space-y-2">
+            <h2
+              class="h-4 w-36 rounded-full bg-black/10 text-base font-bold"
+            ></h2>
+            <div class="font-base flex items-center justify-between">
+              <div
+                class="flex items-center space-x-2 text-xs font-extralight *:h-[0.65rem] *:w-14 *:rounded-lg *:bg-black/10"
+              >
+                <p></p>
+                <p></p>
+              </div>
+              <h3 class="h-[0.65rem] w-11 rounded-lg bg-black/10"></h3>
+            </div>
+          </div>
+
+          <!-- Cart & Buy -->
+          <div
+            class="ml-2 flex items-center space-x-5 *:h-5 *:w-24 *:rounded-xl *:bg-black/10"
+          >
+            <button></button>
+            <button></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

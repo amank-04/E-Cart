@@ -1,0 +1,63 @@
+<div class="mt-20 flex flex-col items-center">
+  <form
+    (ngSubmit)="reset()"
+    [formGroup]="resetForm"
+    class="flex w-5/6 max-w-96 flex-col space-y-[0.6rem] rounded-lg bg-white px-5 py-5 shadow-lg sm:px-8"
+  >
+    <h2 class="text-center text-3xl font-semibold">Reset Password</h2>
+    <p class="pb-1 text-center text-sm">Please use strong password</p>
+
+    <label for="password" class="relative *:bg-white">
+      <input
+        formControlName="password"
+        required
+        type="password"
+        id="password"
+        class="form-input"
+      />
+      <span class="input-placeholder">Password</span>
+      @if (
+        resetForm.hasError("required", "password") &&
+        resetForm.controls["password"].dirty
+      ) {
+        <span class="block text-xs text-red-500">*password is required</span>
+      }
+    </label>
+
+    <label for="confirm-password" class="relative *:bg-white">
+      <input
+        formControlName="confirmPassword"
+        required
+        type="password"
+        id="confirm-password"
+        class="form-input"
+      />
+      <span class="input-placeholder">Confirm Password</span>
+      @if (
+        resetForm.hasError("required", "confirmPassword") &&
+        resetForm.controls["confirmPassword"].dirty
+      ) {
+        <span class="block text-xs text-red-500"
+          >*confirm password is required</span
+        >
+      }
+      @if (resetForm.hasError("confirmPasswordValidator", "confirmPassword")) {
+        <span class="block text-xs text-red-500">*password didn't match</span>
+      }
+    </label>
+
+    <!-- Submint -->
+    <p></p>
+    <button
+      type="submit"
+      [disabled]="resetForm.invalid"
+      class="rounded-lg {{
+        resetForm.invalid
+          ? 'bg-black/70 cursor-not-allowed'
+          : 'hover:bg-black/80'
+      }} bg-black py-1 font-semibold text-white"
+    >
+      Reset
+    </button>
+  </form>
+</div>

@@ -1,0 +1,117 @@
+<div class="mt-20 flex flex-col items-center">
+  <form
+    (ngSubmit)="handleRegistration()"
+    [formGroup]="registerForm"
+    class="flex w-5/6 max-w-96 flex-col space-y-[0.6rem] rounded-lg bg-white px-5 pb-5 pt-2 shadow-lg sm:px-8"
+  >
+    <h2 class="pb-2 text-center text-3xl font-semibold">Register</h2>
+    <label for="firstName" class="relative *:bg-white">
+      <input
+        formControlName="firstName"
+        required
+        id="firstName"
+        class="form-input"
+      />
+      <span class="input-placeholder">First name</span>
+      @if (
+        registerForm.hasError("required", "firstName") &&
+        registerForm.controls["firstName"].dirty
+      ) {
+        <span class="block text-xs text-red-500">*first name is required</span>
+      }
+    </label>
+
+    <label for="lastName" class="relative *:bg-white">
+      <input
+        formControlName="lastName"
+        required
+        id="lastName"
+        class="form-input"
+      />
+      <span class="input-placeholder">Last name</span>
+      @if (
+        registerForm.hasError("required", "lastName") &&
+        registerForm.controls["lastName"].dirty
+      ) {
+        <span class="block text-xs text-red-500">*last name is required</span>
+      }
+    </label>
+
+    <label for="email" class="relative *:bg-white">
+      <input formControlName="email" required id="email" class="form-input" />
+      <span class="input-placeholder">Email</span>
+      @if (
+        registerForm.hasError("required", "email") &&
+        registerForm.controls["email"].dirty
+      ) {
+        <span class="block text-xs text-red-500">*email is required</span>
+      }
+      @if (registerForm.hasError("email", "email")) {
+        <span class="block text-xs text-red-500">*email is invalid</span>
+      }
+    </label>
+
+    <label for="password" class="relative *:bg-white">
+      <input
+        formControlName="password"
+        required
+        type="password"
+        id="password"
+        class="form-input"
+      />
+      <span class="input-placeholder">Password</span>
+      @if (
+        registerForm.hasError("required", "password") &&
+        registerForm.controls["password"].dirty
+      ) {
+        <span class="block text-xs text-red-500">*password is required</span>
+      }
+    </label>
+
+    <label for="confirm-password" class="relative *:bg-white">
+      <input
+        formControlName="confirmPassword"
+        required
+        type="password"
+        id="confirm-password"
+        class="form-input"
+      />
+      <span class="input-placeholder">Confirm Password</span>
+      @if (
+        registerForm.hasError("required", "confirmPassword") &&
+        registerForm.controls["confirmPassword"].dirty
+      ) {
+        <span class="block text-xs text-red-500"
+          >*confirm password is required</span
+        >
+      }
+      @if (
+        registerForm.hasError("confirmPasswordValidator", "confirmPassword")
+      ) {
+        <span class="block text-xs text-red-500">*password didn't match</span>
+      }
+    </label>
+
+    <!-- Submint -->
+    <p></p>
+    <button
+      type="submit"
+      [disabled]="registerForm.invalid"
+      class="rounded-lg {{
+        registerForm.invalid
+          ? 'bg-black/70 cursor-not-allowed'
+          : 'hover:bg-black/80'
+      }} bg-black py-1 font-semibold text-white"
+    >
+      Submit
+    </button>
+
+    <!-- Login -->
+    <p class="text-center text-xs">
+      Already Have an Account?
+      <a routerLink="/login" class="font-semibold text-black underline"
+        >Login here</a
+      >
+    </p>
+  </form>
+</div>

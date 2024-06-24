@@ -1,0 +1,132 @@
+@defer {
+  <div class="flex h-[calc(100vh_-_5.05rem)] flex-col justify-between">
+    <div>
+      @if (cartStore.items().length === 0) {
+        <h3 class="m-4 rounded-lg bg-white p-4 text-2xl shadow-md md:text-3xl">
+          Your Shopping Cart is Empty
+        </h3>
+        <div class="h-1"></div>
+      } @else {
+        <!-- Toggle items Selection -->
+        <button
+          (click)="handleSelectAllItems()"
+          class="mx-4 mb-2 text-sm font-semibold text-blue-600"
+        >
+          {{
+            cartStore.selectedItemCount() === cartStore.items().length
+              ? "Deselect"
+              : "Select"
+          }}
+          all items
+        </button>
+
+        <!-- Checkout -->
+        <div
+          class="sticky top-0 z-10 mx-3 mt-2 flex h-12 items-center justify-between rounded-lg bg-slate-200 px-2 py-2 text-white shadow-md"
+        >
+          @if (cartStore.totalPrice()) {
+            <p class="text-black">
+              Total:
+              <span class="font-bold">
+                ₹{{ cartStore.totalPrice() | indNum }}</span
+              >
+            </p>
+            <button
+              (click)="handleCheckout()"
+              [disabled]="!authService.currentUser()"
+              class="rounded-lg bg-black px-3 py-1 text-white hover:opacity-75 
+              {{
+                !authService.currentUser() && 'cursor-not-allowed opacity-75'
+              }}"
+            >
+              {{ authService.currentUser() ? "Proceed" : "Sign in" }} to
+              Checkout
+            </button>
+          } @else {
+            <p class="text-nowrap py-[2px] font-bold text-black">
+              Please select items to checkout.
+            </p>
+          }
+        </div>
+
+        <!-- Cart Items List -->
+        <div class="mx-4 mt-4 space-y-4">
+          @for (item of cartStore.items(); track item.id) {
+            <div
+              class="relative flex scale-[0.97] transform cursor-default items-center space-x-10 rounded-lg bg-white px-4 py-5 shadow-sm duration-200 hover:scale-[1.01] hover:shadow-lg"
+            >
+              <img
+                [routerLink]="'/product/' + item.id"
+                class="w-24 cursor-pointer rounded-lg object-contain"
+                [src]="item.imageurl"
+                [alt]="item.name"
+              />
+              <div class="space-y-2">
+                <p class="absolute right-3 top-0 text-[0.68rem]">
+                  @if (item.count > 1) {
+                    ₹{{ item.price | indNum }} * {{ item.count | indNum }}:
+                  }
+                  <span class="text-sm font-semibold"
+                    >₹{{ item.price * item.count | indNum }}</span
+                  >
+                </p>
+                <input
+                  type="checkbox"
+                  [checked]="item.selected"
+                  (click)="toggleItemSelection(item.id)"
+                  id="selected"
+                  name="selected"
+                  class="absolute left-1 top-1 cursor-pointer bg-transparent"
+                />
+                <h2 class="font-semibold text-black/70">{{ item.name }}</h2>
+                <p class="line-clamp-2 text-xs text-black/70">
+                  {{ item.description }}
+                </p>
+                <div class="flex w-fit rounded-lg border border-black/35">
+                  <button
+                    (click)="decrementCount(item.id)"
+                    class="rounded-lg px-3"
+                  >
+                    @if (item.count === 1) {
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                        />
+                      </svg>
+                    } @else {
+                      -
+                    }
+                  </button>
+                  <span class="cursor-pointer border-x border-black/35 px-3">{{
+                    item.count
+                  }}</span>
+                  <button
+                    (click)="incrementCount(item.id)"
+                    class="rounded-lg px-3"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <app-footer />
+  </div>
+} @placeholder (minimum 500ms) {
+  <app-cart-skeleton />
+} @loading (minimum 500ms) {
+  <app-cart-skeleton />
+}

@@ -1,0 +1,55 @@
+<div
+  class="mb-4 scale-95 rounded-lg bg-white text-gray-600 shadow-sm duration-200 hover:scale-[0.99] hover:shadow-lg"
+>
+  <!-- Navbar -->
+  <div
+    class="flex items-center justify-between text-nowrap rounded-t-md bg-gray-200 px-3 py-1 text-xs"
+  >
+    <div class="flex items-center space-x-10">
+      <div>
+        <p class="text-center text-sm font-bold">Order Placed</p>
+        <p class="text-center">{{ order.placed | date: "dd MMM yyyy" }}</p>
+      </div>
+
+      <div>
+        <p class="text-center text-sm font-bold">Total</p>
+        <p class="text-center">₹{{ order.total | indNum }}</p>
+      </div>
+
+      <div>
+        <p class="text-center text-sm font-bold">Status</p>
+        <p class="text-center capitalize">
+          {{ order.status }}
+        </p>
+      </div>
+    </div>
+    <p class="text-right text-base text-blue-600">
+      {{ order.products.length }} items
+    </p>
+  </div>
+
+  <!-- Proructs -->
+  <div
+    class="flex flex-nowrap items-center space-x-2 overflow-x-auto rounded-b-md py-2 *:flex *:flex-col"
+  >
+    @for (product of order.products; track product.id) {
+      <div class="group relative flex-none">
+        <img
+          routerLink="/product/{{ product.id }}"
+          [src]="product.imageurl"
+          class="h-36 scale-[0.85] object-contain duration-200 hover:scale-100"
+          alt="product-{{ product.id }}"
+        />
+        <span
+          class="absolute -bottom-[8px] z-50 hidden w-fit min-w-full text-nowrap rounded-md border-2 border-white bg-gray-900 px-5 text-center text-sm text-white group-hover:block"
+          >₹
+          @if (product.count > 1) {
+            {{ product.price | indNum }} * {{ product.count }}
+          } @else {
+            {{ product.price | indNum }}
+          }
+        </span>
+      </div>
+    }
+  </div>
+</div>

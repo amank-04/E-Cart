@@ -1,0 +1,231 @@
+<nav
+  class="unselectable mb-5 flex h-[3.8rem] w-full items-center justify-between bg-white px-2 py-2 xl:px-2"
+>
+  <a href="/">
+    <img
+      src="../../../assets/logo.jpeg"
+      class="size-10 cursor-pointer object-contain"
+    />
+  </a>
+
+  <!-- Search bar -->
+  <div
+    class="relative mx-4 flex max-w-xl flex-1 items-center space-x-1 rounded-lg bg-smoke/50 px-3 py-2 text-xs text-gray-700"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="size-4 text-gray-400"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+      />
+    </svg>
+
+    <!-- [value]="this.searchTerm" -->
+    <input
+      (input)="handleSearch(term.value)"
+      (clickOutside)="handleClickOutside()"
+      (focus)="showSuggestions = true"
+      (keydown.enter)="handleSearchSubmit(term.value)"
+      #term
+      class="w-full bg-transparent outline-none"
+      type="text"
+      placeholder="Search "
+    />
+
+    <div
+      class="absolute -bottom-2 -left-16 z-20 w-full translate-y-full rounded-lg bg-white sm:left-0 {{
+        showSuggestions ? '' : 'hidden'
+      }}"
+    >
+      @for (item of suggestions; track $index) {
+        <a
+          class="flex w-full min-w-80 cursor-pointer items-center justify-between space-x-5 rounded-sm border bg-white p-2 hover:opacity-75 sm:w-fit"
+          [href]="'/product/' + item.id"
+        >
+          <img [src]="item.imageurl" alt="" class="size-14 object-contain" />
+          <div class="space-y-px">
+            <h3 class="text-sm font-semibold">{{ item.name }}</h3>
+            <p class="line-clamp-1 text-xs">{{ item.description }}</p>
+            <p class="font-semibold">₹ {{ item.price | indNum }}</p>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+
+  <!-- User Acc & Options -->
+
+  <div class="md:sp-x4 flex items-center space-x-1 md:space-x-3">
+    <div
+      class="group/cart relative flex cursor-pointer flex-col items-center space-y-1"
+    >
+      @if (cartStore.items().length) {
+        <span
+          class="absolute -right-1 -top-1 rounded-full bg-red-500 px-1 py-px text-center text-[0.6rem] text-white"
+          >{{ cartStore.items().length }}</span
+        >
+      }
+      <div
+        class="flex flex-col items-center -space-y-px group-hover/cart:text-black/65"
+        routerLink="/cart"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-7"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+          />
+        </svg>
+        <p class="hidden text-[0.6rem] md:block">Cart</p>
+      </div>
+    </div>
+
+    @if (this.authService.currentUser()) {
+      <!-- Profile dropdown -->
+      <div (clickOutside)="clickedOutside()" class="relative z-20 ml-3">
+        <button
+          type="button"
+          (click)="toggleMenu()"
+          class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm hover:opacity-80"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <img
+            class="h-8 w-8 rounded-full"
+            [src]="this.authService.currentUser()?.imageurl"
+            alt="dp"
+          />
+        </button>
+
+        <!-- Menu Option -->
+        <div
+          class="absolute right-0 mt-2 w-32 origin-top- rounded-md bg-white text-sm shadow-lg ring-1 ring-black ring-opacity-5 outline-none {{
+            isMenuOpen ? '' : 'hidden'
+          }}"
+        >
+          <a
+            class="flex items-center space-x-1 px-4 py-2 text-gray-700 hover:bg-gray-100"
+            routerLink="/profile"
+            (click)="isMenuOpen = false"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+            </svg>
+            <span>Profile</span>
+          </a>
+          <a
+            class="flex items-center space-x-1 px-4 py-2 text-gray-700 hover:bg-gray-100"
+            routerLink="/orders"
+            (click)="isMenuOpen = false"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+              />
+            </svg>
+            <span>Orders</span>
+          </a>
+
+          @if (authService.currentUser()?.isAdmin) {
+            <a
+              class="flex items-center space-x-1 px-4 py-2 text-gray-700 hover:bg-gray-100"
+              (click)="toggleMenu()"
+              routerLink="/admin"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"
+                />
+              </svg>
+
+              <span>Admin</span>
+            </a>
+          }
+          <button
+            class="flex w-full items-center space-x-1 rounded-b-lg bg-red-600 px-4 py-2 text-left text-white hover:bg-red-500"
+            (click)="logOut()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+              />
+            </svg>
+            <span>Log out</span>
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div
+        class="cursor-pointer -space-y-1 hover:opacity-65"
+        routerLink="/login"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-9"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+        </svg>
+        <p class="hidden text-center text-[0.6rem] md:block">Sign in</p>
+      </div>
+    }
+  </div>
+</nav>

@@ -1,0 +1,26 @@
+<div class="flex h-[calc(100vh_-_5.05rem)] flex-col justify-between">
+  <div>
+    <div class="mb-4 scale-95 rounded-md bg-white px-8 py-3 shadow-md">
+      <h1 class="mb-1 border-b border-gray-400 pb-2 text-4xl">Your Orders</h1>
+      @if (!authService.currentUser()) {
+        <h2>
+          <div>
+            Please
+            <a class="text-blue-600 hover:underline" href="/login">Sign in</a>
+            to see orders
+          </div>
+        </h2>
+      } @else {
+        <h2 class="text-lg">
+          {{ orders.length ? orders.length + " Orders" : "No orders in past" }}
+        </h2>
+      }
+    </div>
+
+    @for (order of orders; track order.id) {
+      <app-order-card [order]="order" />
+    }
+  </div>
+
+  <app-footer />
+</div>

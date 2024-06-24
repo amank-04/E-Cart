@@ -1,0 +1,54 @@
+@if (modalService.modalType()) {
+  <div
+    class="fixed bottom-0 left-0 right-0 top-0 z-20 grid place-items-center bg-black/50"
+  >
+    <div
+      class="relative w-4/5 max-w-[45rem] rounded-lg bg-whitesmoke opacity-100"
+      (clickOutside)="closeModal()"
+    >
+      @switch (modalService.modalType()) {
+        @case ("privacy") {
+          <app-privacy />
+        }
+        @case ("terms") {
+          <app-terms />
+        }
+        @case ("tech") {
+          <app-tech />
+        }
+        @case ("team") {
+          <app-team />
+        }
+        @case ("contact") {
+          <app-contact />
+        }
+        @case ("faq") {
+          <app-faq />
+        }
+        @case ("return") {
+          <app-return />
+        }
+        @case ("shipping") {
+          <app-shipping />
+        }
+      }
+
+      <button (click)="closeModal()" class="absolute right-5 top-5">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+}
