@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserDetails = exports.verifyAdmin = exports.verifyUser = exports.verifyToken = void 0;
+exports.getUserDetails = exports.verifyAdmin = exports.verifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const error_1 = require("./error");
 const success_1 = require("./success");
@@ -35,18 +35,6 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     });
 });
 exports.verifyToken = verifyToken;
-const verifyUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, exports.verifyToken)(req, res, () => {
-        var _a, _b;
-        if (((_a = req.body.user) === null || _a === void 0 ? void 0 : _a.email) === req.params.email || ((_b = req.body.user) === null || _b === void 0 ? void 0 : _b.is_admin)) {
-            next();
-        }
-        else {
-            return next((0, error_1.CreateError)(403, "You are not authenticated!"));
-        }
-    });
-});
-exports.verifyUser = verifyUser;
 const verifyAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     (0, exports.verifyToken)(req, res, () => {
         var _a;

@@ -17,7 +17,7 @@ const getAllProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     try {
         const products = yield db_1.db.query(`
         SELECT p.id, name, description, price, ROUND(AVG(r.rating), 1) as rating, COUNT(r.id) as reviews,
-        pd.imageurls[1] as imageurl, pd.limiteddeaal as limiteddeal
+        pd.imageurls[1] as imageurl
         FROM products p
         JOIN product_details pd ON pd.product_id = p.id
         LEFT JOIN reviews r ON r.product_id = p.id
@@ -35,7 +35,7 @@ const getProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     const id = req.params.id;
     try {
         const data = yield db_1.db.query(`
-      SELECT name, description, price, title, details, originalprice, imageurls, limiteddeaal, ROUND(AVG(r.rating), 1) as rating, COUNT(r.id) as reviews FROM products p
+      SELECT name, description, price, title, details, originalprice, imageurls, ROUND(AVG(r.rating), 1) as rating, COUNT(r.id) as reviews FROM products p
       JOIN product_details pd ON pd.product_id = p.id
       LEFT JOIN reviews r ON r.product_id = p.id
       GROUP BY r.product_id, p.id, pd.id
@@ -101,7 +101,7 @@ const getSearchedProducts = (req, res, next) => __awaiter(void 0, void 0, void 0
         const products = yield db_1.db.query(`
       SELECT p.id, name, description, price, ROUND(AVG(r.rating), 1) as rating, COUNT(r.id) as reviews,
       ts_rank(ts, to_tsquery('english', '${searchWithStar}')) rank,
-      pd.imageurls[1] as imageurl, pd.limiteddeaal as limiteddeal
+      pd.imageurls[1] as imageurl
       FROM products p
       JOIN product_details pd ON pd.product_id = p.id
       LEFT JOIN reviews r ON r.product_id = p.id

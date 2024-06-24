@@ -26,7 +26,7 @@ const makeid = () => {
 };
 const getAllOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const orders = (yield db_1.db.query(`SELECT * FROM orders`)).rows;
+        const orders = (yield db_1.db.query(`SELECT * FROM orders ORDER BY placed DESC`)).rows;
         return next((0, success_1.CreateSuccess)(200, "Orders Fetched", {
             orders,
         }));
