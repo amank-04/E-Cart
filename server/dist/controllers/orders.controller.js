@@ -17,7 +17,8 @@ const getOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     const email = req.body.user.email;
     try {
         const orders = yield db_1.db.query(`SELECT * FROM orders 
-    WHERE user_email = '${email}'`);
+    WHERE user_email = '${email}'
+    ORDER BY placed DESC`);
         return next((0, success_1.CreateSuccess)(200, "Orders Fetched", orders.rows));
     }
     catch (error) {

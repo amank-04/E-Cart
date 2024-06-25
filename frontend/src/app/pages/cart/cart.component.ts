@@ -93,15 +93,23 @@ export default class CartComponent {
     if (!this.authService.currentUser()) {
       return;
     }
+    this.productsService.clearCart();
+
+    this.stripeService.loadingPayment.set(true);
 
     this.stripeService
       .createPayment(this.cartStore.items().filter((item) => item.selected))
       ?.subscribe(async (res: any) => {
         const stripe = await loadStripe(this.stripeService.stripePublicKey);
 
-        stripe?.redirectToCheckout({
-          sessionId: res.data.id,
-        });
+        stripe
+          ?.redirectToCheckout({
+            sessionId: res.data.id,
+          })
+          .finally(() => {
+            this.stripeService.loadingPayment.set(false);
+            this.cartStore.removeAllItem();
+          });
       });
   }
 }

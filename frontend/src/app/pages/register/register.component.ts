@@ -12,6 +12,8 @@ import { NotifyService } from '../../services/notify.service';
   templateUrl: './register.component.html',
 })
 export default class RegisterComponent {
+  isLoading = false;
+
   fb = inject(FormBuilder);
   authService = inject(AuthService);
   router = inject(Router);
@@ -37,6 +39,7 @@ export default class RegisterComponent {
   );
 
   handleRegistration() {
+    this.isLoading = true;
     this.authService.register(this.registerForm.value).subscribe({
       next: () => {
         this.notifyService.setNotification(
@@ -48,6 +51,7 @@ export default class RegisterComponent {
       },
       error: (err) => {
         this.notifyService.setNotification('Email Already Registered', 'error');
+        this.isLoading = false;
       },
     });
   }

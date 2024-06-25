@@ -9,4 +9,5 @@ router.post("/create", verify_token_1.verifyToken, cart_controller_1.createCartI
 router.post("/update", verify_token_1.verifyToken, cart_controller_1.updateCartItem);
 router.post("/del", verify_token_1.verifyToken, cart_controller_1.deleteCartItem);
 router.post("/select", verify_token_1.verifyToken, cart_controller_1.selectAllCartItems);
+router.post("/clear", verify_token_1.verifyToken, cart_controller_1.clearAllCart);
 exports.default = router;

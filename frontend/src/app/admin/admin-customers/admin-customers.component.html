@@ -1,33 +1,41 @@
-<div class="relative mx-5 overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-left text-sm rtl:text-right">
-    <thead class="bg-gray-700 text-xs uppercase text-white">
-      <tr>
-        <th scope="col" class="p-2">Image</th>
-        <th scope="col" class="p-2">Name</th>
-        <th scope="col" class="p-2">Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (customer of customersList; track customer.email) {
-        <tr
-          class="cursor-pointer text-nowrap border-b odd:bg-white even:bg-gray-50 hover:bg-gray-200"
-        >
-          <th
-            scope="row"
-            class="whitespace-nowrap pl-6 pr-3 font-medium text-gray-900"
-          >
-            <img
-              [src]="customer.imageurl"
-              class="h-7 object-contain"
-              alt="user-image"
-            />
-          </th>
-          <td class="p-2">
-            {{ customer.firstname + " " + customer.lastname }}
-          </td>
-          <td class="p-2 hover:underline">{{ customer.email }}</td>
+@if (loadingState === "loading") {
+  <app-loading-spinner />
+} @else if (loadingState === "success") {
+  <div class="relative mx-5 overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-left text-sm rtl:text-right">
+      <thead class="bg-gray-700 text-xs uppercase text-white">
+        <tr>
+          <th scope="col" class="p-2">Image</th>
+          <th scope="col" class="p-2">Name</th>
+          <th scope="col" class="p-2">Email</th>
         </tr>
-      }
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        @for (customer of customersList; track customer.email) {
+          <tr
+            class="cursor-pointer text-nowrap border-b odd:bg-white even:bg-gray-50 hover:bg-gray-200"
+          >
+            <th
+              scope="row"
+              class="whitespace-nowrap pl-6 pr-3 font-medium text-gray-900"
+            >
+              <img
+                [src]="customer.imageurl"
+                class="h-7 object-contain"
+                alt="user-image"
+              />
+            </th>
+            <td class="p-2">
+              {{ customer.firstname + " " + customer.lastname }}
+            </td>
+            <td class="p-2 hover:underline">{{ customer.email }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <h1 class="mx-auto my-14 max-w-[75vw] text-center text-2xl font-bold">
+    Server Connection Timeout
+  </h1>
+}

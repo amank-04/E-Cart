@@ -12,6 +12,7 @@ import { NotifyService } from '../../services/notify.service';
   templateUrl: './reset.component.html',
 })
 export default class ResetComponent implements OnInit {
+  isLoading = false;
   fb = inject(FormBuilder);
   activatedRoute = inject(ActivatedRoute);
   token!: string;
@@ -39,6 +40,8 @@ export default class ResetComponent implements OnInit {
     });
   }
   reset() {
+    this.isLoading = true;
+
     const resetObj = {
       token: this.token,
       password: this.resetForm.value.password,
@@ -51,6 +54,7 @@ export default class ResetComponent implements OnInit {
       },
       error: (err) => {
         this.notify.setNotification('Something went wrong', 'error');
+        this.isLoading = false;
         console.log(err);
       },
     });

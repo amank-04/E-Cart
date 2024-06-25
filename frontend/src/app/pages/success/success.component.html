@@ -1,18 +1,32 @@
 @if (confirmed) {
-  <div className="max-w-screen-lg mx-auto">
-    <div className="flex flex-col p-10 bg-white space-y-5">
-      <div className="flex items-center space-x-1">
-        <!-- <CheckCircleIcon className="text-green-500 h-8 sm:h-10" /> -->
-        <h1 className="text-2xl sm:text-3xl">Order Placed, thanks!</h1>
+  <!-- component -->
+  <div class="h-[80vh] w-full bg-gray-100">
+    <div class="w-fit rounded-lg bg-white p-6 md:mx-auto">
+      <svg viewBox="0 0 24 24" class="mx-auto my-6 size-16 text-green-600">
+        <path
+          fill="currentColor"
+          d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
+        ></path>
+      </svg>
+      <div class="text-center">
+        <h3
+          class="text-center text-base font-semibold text-gray-900 md:text-2xl"
+        >
+          Payment Done!
+        </h3>
+        <p class="my-2 text-gray-600">
+          Thank you for completing your secure online payment.
+        </p>
+        <p>Have a great day!</p>
+        <div class="py-10 text-center">
+          <button
+            routerLink="/orders"
+            class="rounded-lg bg-gray-800 px-12 py-3 font-semibold text-white hover:bg-gray-700"
+          >
+            Go To Orders
+          </button>
+        </div>
       </div>
-
-      <p>
-        Thank you for shopping with us. We'll send a confirmation once your item
-        has shipped, if you would like to check the status of your order(s)
-        please press the link below
-      </p>
-
-      <a href="/orders" className="button"> Go to my orders </a>
     </div>
   </div>
 } @else {

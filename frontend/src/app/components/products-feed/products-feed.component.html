@@ -1,31 +1,39 @@
 @defer {
-  @if (!products.length) {
+  @if (loadingState === "loading") {
+    <app-product-skeleton
+      [len]="products.length"
+      class="rounded-xl bg-white py-2 shadow-md hover:cursor-pointer hover:opacity-60 md:px-2"
+    />
+  } @else if (loadingState === "error") {
     <h1 class="mx-auto my-14 max-w-[75vw] text-center text-2xl font-bold">
-      No Products Found {{ term ? "with term " + term : "" }}
+      Server Connection Timeout
     </h1>
-  } @else {
-    <div class="mx-4 space-y-3">
-      @if (term) {
-        <p class="px-4 text-3xl font-semibold">Search results for {{ term }}</p>
-      }
-      <div
-        class="grid max-w-7xl grid-flow-row-dense grid-cols-1 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-x-4 md:grid-cols-3 lg:grid-cols-4 lg:px-0"
-      >
-        @for (product of products; track $index) {
-          <app-product
-            class="scale-90 transform rounded-xl bg-white shadow-md duration-200 hover:scale-[1.02] hover:cursor-pointer hover:shadow-xl"
-            [item]="product"
-          />
+  } @else if (loadingState === "success") {
+    @if (!products.length) {
+      <h1 class="mx-auto my-14 max-w-[75vw] text-center text-2xl font-bold">
+        No Products Found {{ term ? "with term " + term : "" }}
+      </h1>
+    } @else {
+      <div class="mx-4 space-y-3">
+        @if (term) {
+          <p class="px-4 text-3xl font-semibold">
+            Search results for {{ term }}
+          </p>
         }
+        <div
+          class="grid max-w-7xl grid-flow-row-dense grid-cols-1 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-x-4 md:grid-cols-3 lg:grid-cols-4 lg:px-0"
+        >
+          @for (product of products; track $index) {
+            <app-product
+              class="scale-90 transform rounded-xl bg-white shadow-md duration-200 hover:scale-[1.02] hover:cursor-pointer hover:shadow-xl"
+              [item]="product"
+            />
+          }
+        </div>
       </div>
-    </div>
+    }
   }
 } @placeholder (minimum 1000ms) {
-  <app-product-skeleton
-    [len]="products.length"
-    class="rounded-xl bg-white py-2 shadow-md hover:cursor-pointer hover:opacity-60 md:px-2"
-  />
-} @loading (minimum 1000ms) {
   <app-product-skeleton
     [len]="products.length"
     class="rounded-xl bg-white py-2 shadow-md hover:cursor-pointer hover:opacity-60 md:px-2"

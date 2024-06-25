@@ -11,6 +11,8 @@ import { ModalComponent } from './components/modal/modal.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { CartItem } from '../../typing';
 import { CartSkeletonComponent } from './components/cart-skeleton/cart-skeleton.component';
+import { StripeService } from './services/stripe.service';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +27,7 @@ import { CartSkeletonComponent } from './components/cart-skeleton/cart-skeleton.
     ModalComponent,
     NotificationComponent,
     CartSkeletonComponent,
+    LoadingSpinnerComponent,
   ],
   templateUrl: './app.component.html',
 })
@@ -33,6 +36,7 @@ export class AppComponent {
   authService = inject(AuthService);
   router = inject(Router);
   productService = inject(ProductsService);
+  stripeService = inject(StripeService);
 
   constructor() {
     this.authService.setCurrentUser();
@@ -41,9 +45,7 @@ export class AppComponent {
       this.productService.getCartItems().subscribe({
         next: (res: any) => {
           const items: CartItem[] = res.data;
-          items.forEach((item) => {
-            this.cartStore.addItem(item);
-          });
+          this.cartStore.initialCart(items);
         },
         error: () => {
           localStorage.removeItem('auth_token');

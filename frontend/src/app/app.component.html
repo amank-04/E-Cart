@@ -1,6 +1,10 @@
 <div class="min-h-screen">
   <app-navbar />
-  <router-outlet />
+  @if (stripeService.loadingPayment()) {
+    <app-loading-spinner />
+  } @else {
+    <router-outlet />
+  }
 </div>
 
 <app-modal />

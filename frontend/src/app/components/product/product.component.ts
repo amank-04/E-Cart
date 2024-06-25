@@ -66,6 +66,9 @@ export class ProductComponent {
       this.notifyService.setNotification('Please login to Checkout', 'error');
       return;
     }
+
+    this.stripeService.loadingPayment.set(true);
+
     this.stripeService
       .createPayment([
         {
@@ -80,9 +83,13 @@ export class ProductComponent {
       ])
       ?.subscribe(async (res: any) => {
         const stripe = await loadStripe(this.stripeService.stripePublicKey);
-        stripe?.redirectToCheckout({
-          sessionId: res.data.id,
-        });
+        stripe
+          ?.redirectToCheckout({
+            sessionId: res.data.id,
+          })
+          .finally(() => {
+            this.stripeService.loadingPayment.set(false);
+          });
       });
   }
 }

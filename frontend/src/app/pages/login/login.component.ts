@@ -11,6 +11,8 @@ import { NotifyService } from '../../services/notify.service';
   templateUrl: './login.component.html',
 })
 export default class LoginComponent {
+  isLoading = false;
+
   fb = inject(FormBuilder);
   authService = inject(AuthService);
   router = inject(Router);
@@ -28,6 +30,7 @@ export default class LoginComponent {
   });
 
   login() {
+    this.isLoading = true;
     this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
         const token: string = res.data.token ?? '';
@@ -40,6 +43,7 @@ export default class LoginComponent {
       error: (err) => {
         this.authService.currentUser.set(null);
         this.notifyService.setNotification('Wrong Credentials!', 'error');
+        this.isLoading = false;
       },
     });
   }

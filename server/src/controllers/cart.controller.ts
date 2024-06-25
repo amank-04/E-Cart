@@ -109,3 +109,16 @@ export const selectAllCartItems = async (req: Request, res: Response, next: Next
     return next(CreateError(501, "Internal Server Issue"));
   }
 };
+export const clearAllCart = async (req: Request, res: Response, next: NextFunction) => {
+  const email = req.body.user.email as string;
+  if (!email) {
+    return next(CreateError(401, "You are not authenticated!"));
+  }
+  try {
+    await db.query(`DELETE FROM carts WHERE user_email = '${email}'`);
+    return next(CreateSuccess(200, "Cart Cleared"));
+  } catch (error) {
+    console.log(error);
+    return next(CreateError(501, "Internal Server Issue"));
+  }
+};

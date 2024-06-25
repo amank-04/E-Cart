@@ -84,5 +84,13 @@ export const CartStore = signalStore(
         localStorage.setItem('cart_items', JSON.stringify(items()));
       }
     },
+
+    removeAllItem() {
+      patchState(store, { items: [] });
+    },
+
+    initialCart(items: CartItem[]) {
+      patchState(store, { items });
+    },
   })),
 );

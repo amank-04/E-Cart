@@ -8,7 +8,8 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
 
   try {
     const orders = await db.query(`SELECT * FROM orders 
-    WHERE user_email = '${email}'`);
+    WHERE user_email = '${email}'
+    ORDER BY placed DESC`);
     return next(CreateSuccess(200, "Orders Fetched", orders.rows));
   } catch (error) {
     console.log("dont get orders");

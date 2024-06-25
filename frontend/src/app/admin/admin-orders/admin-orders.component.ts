@@ -4,14 +4,21 @@ import { AdminService } from '../../services/admin.service';
 import { DatePipe } from '@angular/common';
 import { IndNumPipe } from '../../pipes/ind-num.pipe';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-admin-orders',
   standalone: true,
-  imports: [DatePipe, IndNumPipe, ClickOutsideDirective],
+  imports: [
+    DatePipe,
+    IndNumPipe,
+    ClickOutsideDirective,
+    LoadingSpinnerComponent,
+  ],
   templateUrl: './admin-orders.component.html',
 })
 export default class AdminOrdersComponent {
+  loadingState: 'success' | 'loading' | 'error' = 'loading';
   ordersList: Order[] = [];
   menuOpen: number | null = null;
 
@@ -19,9 +26,10 @@ export default class AdminOrdersComponent {
     this.adminService.getAllOrders().subscribe({
       next: ({ data: { orders } }) => {
         this.ordersList = orders;
+        this.loadingState = 'success';
       },
       error: (err) => {
-        console.log(err);
+        this.loadingState = 'error';
       },
     });
   }

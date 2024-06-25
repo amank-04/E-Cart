@@ -83,6 +83,14 @@ export class ProductsService {
       .subscribe();
   }
 
+  clearCart() {
+    this.http
+      .post(this.url + '/cart/clear', {
+        token: localStorage.getItem('auth_token'),
+      })
+      .subscribe();
+  }
+
   selectAllCartItems(selectedState: Boolean) {
     this.http
       .post(this.url + '/cart/select', {

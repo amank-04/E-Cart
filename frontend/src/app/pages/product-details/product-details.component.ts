@@ -29,6 +29,7 @@ export default class ProductDetailsComponent {
   product: ProductDetails | undefined;
   currentImage: string | undefined = '';
   id = '';
+  loadingState: 'success' | 'loading' | 'error' = 'loading';
 
   cartStore = inject(CartStore);
   productService = inject(ProductsService);
@@ -40,13 +41,19 @@ export default class ProductDetailsComponent {
 
   constructor() {
     this.id = this.route.snapshot.params['id'];
-    this.productService.getProduct(this.id).subscribe((res: any) => {
-      if (!res.data) {
-        this.router.navigateByUrl('/Product-Not-Found');
-      } else {
-        this.product = res.data;
-        this.currentImage = res.data.imageurls[0];
-      }
+    this.productService.getProduct(this.id).subscribe({
+      next: (res: any) => {
+        if (!res.data) {
+          this.router.navigateByUrl('/Product-Not-Found');
+        } else {
+          this.product = res.data;
+          this.loadingState = 'success';
+          this.currentImage = res.data.imageurls[0];
+        }
+      },
+      error: () => {
+        this.loadingState = 'error';
+      },
     });
   }
 
@@ -92,6 +99,9 @@ export default class ProductDetailsComponent {
       this.notifyService.setNotification('Please login to Checkout', 'error');
       return;
     }
+
+    this.stripeService.loadingPayment.set(true);
+
     this.stripeService
       .createPayment([
         {
@@ -106,9 +116,13 @@ export default class ProductDetailsComponent {
       ])!
       .subscribe(async (res: any) => {
         const stripe = await loadStripe(this.stripeService.stripePublicKey);
-        stripe!.redirectToCheckout({
-          sessionId: res.data.id,
-        });
+        stripe!
+          .redirectToCheckout({
+            sessionId: res.data.id,
+          })
+          .finally(() => {
+            this.stripeService.loadingPayment.set(false);
+          });
       });
   }
 }

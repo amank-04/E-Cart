@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink, RouterOutlet, LoadingSpinnerComponent],
   templateUrl: './admin-dashboard.component.html',
 })
 export default class AdminDashboardComponent {
@@ -24,6 +25,6 @@ export default class AdminDashboardComponent {
         this.currentPage = this.router.url.split('/').pop() || '';
         this.loading = false;
       }
-    }, 500);
+    }, 1000);
   }
 }

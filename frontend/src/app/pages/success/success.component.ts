@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { StripeService } from '../../services/stripe.service';
 import { NotifyService } from '../../services/notify.service';
 
 @Component({
   selector: 'app-success',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './success.component.html',
 })
 export default class SuccessComponent {
@@ -19,9 +19,7 @@ export default class SuccessComponent {
   constructor() {
     this.activatedRoute.queryParams.subscribe((params) => {
       const sessionId = params['session_id'];
-
       if (!sessionId) this.router.navigateByUrl('/');
-
       this.stripeService.verifySessionId(sessionId).subscribe({
         next: () => {
           this.confirmed = true;

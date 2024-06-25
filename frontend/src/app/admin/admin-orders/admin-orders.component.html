@@ -1,96 +1,104 @@
-<div class="space-y-4">
-  @for (order of ordersList; track order.id) {
-    <div
-      class="scale-90 rounded-b-md bg-white text-sm text-gray-700 shadow-sm duration-200 hover:scale-[0.99] hover:shadow-lg md:scale-95"
-    >
-      <!-- Navbar -->
+@if (loadingState === "loading") {
+  <app-loading-spinner />
+} @else if (loadingState === "success") {
+  <div class="space-y-4">
+    @for (order of ordersList; track order.id) {
       <div
-        class="relative flex items-center justify-between rounded-t-md bg-gray-300 px-3 py-1"
+        class="scale-90 rounded-b-md bg-white text-sm text-gray-700 shadow-sm duration-200 hover:scale-[0.99] hover:shadow-lg md:scale-95"
       >
-        <div class="flex items-center space-x-5">
-          <div class="text-center">
-            <p class="font-bold">Order Placed</p>
-            <p>{{ order.placed | date: "dd MMM yy" }}</p>
+        <!-- Navbar -->
+        <div
+          class="relative flex items-center justify-between rounded-t-md bg-gray-300 px-3 py-1"
+        >
+          <div class="flex items-center space-x-5">
+            <div class="text-center">
+              <p class="font-bold">Order Placed</p>
+              <p>{{ order.placed | date: "dd MMM yy" }}</p>
+            </div>
+            <div class="text-center">
+              <p class="font-bold">Total</p>
+              <p>₹{{ order.total | indNum }}</p>
+            </div>
           </div>
-          <div class="text-center">
-            <p class="font-bold">Total</p>
-            <p>₹{{ order.total | indNum }}</p>
-          </div>
-        </div>
 
-        <p class="absolute right-2 top-0 text-xs font-semibold text-black">
-          {{ order.email }}
-        </p>
+          <p class="absolute right-2 top-0 text-xs font-semibold text-black">
+            {{ order.email }}
+          </p>
 
-        <div class="-mb-5">
-          <div
-            class="relative flex w-32 items-center"
-            (clickOutside)="menuOpen = null"
-          >
-            <p>Status:</p>
-            <button
-              type="button"
-              (click)="toggleMenu(order.id)"
-              class="relative flex max-w-xs items-center space-x-px px-1 py-px text-sm capitalize"
-              aria-expanded="false"
-              aria-haspopup="true"
+          <div class="-mb-5">
+            <div
+              class="relative flex w-32 items-center"
+              (clickOutside)="menuOpen = null"
             >
-              <span>
-                {{ order.status }}
-              </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4"
+              <p>Status:</p>
+              <button
+                type="button"
+                (click)="toggleMenu(order.id)"
+                class="relative flex max-w-xs items-center space-x-px px-1 py-px text-sm capitalize"
+                aria-expanded="false"
+                aria-haspopup="true"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                />
-              </svg>
-            </button>
+                <span>
+                  {{ order.status }}
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </button>
 
-            <!-- Menu Option -->
-            @if (menuOpen === order.id) {
-              <div
-                class="origin-top- absolute right-0 top-full w-24 rounded-md bg-white text-sm shadow-lg outline-none ring-1 ring-black ring-opacity-5"
-              >
-                <p
-                  class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
-                  (click)="changeStatus(order.id, order.status, 'confirmed')"
+              <!-- Menu Option -->
+              @if (menuOpen === order.id) {
+                <div
+                  class="origin-top- absolute right-0 top-full w-24 rounded-md bg-white text-sm shadow-lg outline-none ring-1 ring-black ring-opacity-5"
                 >
-                  Confirmed
-                </p>
-                <p
-                  (click)="changeStatus(order.id, order.status, 'shipped')"
-                  class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
-                >
-                  Shipped
-                </p>
-                <p
-                  (click)="changeStatus(order.id, order.status, 'delivered')"
-                  class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
-                >
-                  Delivered
-                </p>
-              </div>
-            }
+                  <p
+                    class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
+                    (click)="changeStatus(order.id, order.status, 'confirmed')"
+                  >
+                    Confirmed
+                  </p>
+                  <p
+                    (click)="changeStatus(order.id, order.status, 'shipped')"
+                    class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
+                  >
+                    Shipped
+                  </p>
+                  <p
+                    (click)="changeStatus(order.id, order.status, 'delivered')"
+                    class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
+                  >
+                    Delivered
+                  </p>
+                </div>
+              }
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Images -->
-      <div
-        class="flex flex-nowrap items-center space-x-2 overflow-x-auto rounded-b-md p-2"
-      >
-        @for (product of order.products; track product) {
-          <img class="h-16 object-contain" [src]="product.imageurl" alt="" />
-        }
+        <!-- Images -->
+        <div
+          class="flex flex-nowrap items-center space-x-2 overflow-x-auto rounded-b-md p-2"
+        >
+          @for (product of order.products; track product) {
+            <img class="h-16 object-contain" [src]="product.imageurl" alt="" />
+          }
+        </div>
       </div>
-    </div>
-  }
-</div>
+    }
+  </div>
+} @else {
+  <h1 class="mx-auto my-14 max-w-[75vw] text-center text-2xl font-bold">
+    Server Connection Timeout
+  </h1>
+}

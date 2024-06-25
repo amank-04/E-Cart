@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selectAllCartItems = exports.deleteCartItem = exports.updateCartItem = exports.createCartItem = exports.getAllCartItems = void 0;
+exports.clearAllCart = exports.selectAllCartItems = exports.deleteCartItem = exports.updateCartItem = exports.createCartItem = exports.getAllCartItems = void 0;
 const db_1 = require("../db/db");
 const success_1 = require("../utils/success");
 const error_1 = require("../utils/error");
@@ -105,3 +105,18 @@ const selectAllCartItems = (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.selectAllCartItems = selectAllCartItems;
+const clearAllCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = req.body.user.email;
+    if (!email) {
+        return next((0, error_1.CreateError)(401, "You are not authenticated!"));
+    }
+    try {
+        yield db_1.db.query(`DELETE FROM carts WHERE user_email = '${email}'`);
+        return next((0, success_1.CreateSuccess)(200, "Cart Cleared"));
+    }
+    catch (error) {
+        console.log(error);
+        return next((0, error_1.CreateError)(501, "Internal Server Issue"));
+    }
+});
+exports.clearAllCart = clearAllCart;

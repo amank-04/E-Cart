@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { CartItem, OrderItem } from '../../../typing';
 import { AuthService } from './auth.service';
 import { NotifyService } from './notify.service';
@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
 })
 export class StripeService {
   private checkoutApi = environment.apiUrl + '/checkout';
+  loadingPayment = signal(false);
 
   http = inject(HttpClient);
   authService = inject(AuthService);
