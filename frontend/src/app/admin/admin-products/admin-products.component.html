@@ -109,12 +109,12 @@
       </div>
     }
   </div>
-} @placeholder (minimum 500ms) {
+} @placeholder (minimum 1000ms) {
   <app-product-skeleton
     [len]="productsList.length"
     class="rounded-xl bg-white py-2 shadow-md hover:cursor-pointer hover:opacity-60 md:px-2"
   />
-} @loading (minimum 500ms) {
+} @loading (minimum 1000ms) {
   <app-product-skeleton
     [len]="productsList.length"
     class="rounded-xl bg-white py-2 shadow-md hover:cursor-pointer hover:opacity-60 md:px-2"
