@@ -28,6 +28,7 @@ export class AdminService {
   }
 
   updateOrder(id: number, newStatus: string) {
+    console.log(id + '_' + newStatus);
     return this.http.post(this.adminApi + '/orders', {
       id,
       newStatus,

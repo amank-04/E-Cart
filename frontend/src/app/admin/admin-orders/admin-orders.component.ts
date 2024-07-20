@@ -44,7 +44,10 @@ export default class AdminOrdersComponent {
     this.toggleMenu(null);
     if (currentStatus !== newStatus) {
       this.adminService.updateOrder(id, newStatus).subscribe((res) => {
-        this.ordersList[id - 1].status = newStatus;
+        const order = this.ordersList.find((item) => item.id === id);
+        if (order) {
+          order.status = newStatus;
+        }
       });
     }
   }
