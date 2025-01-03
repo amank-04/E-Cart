@@ -48,8 +48,8 @@ This project is a full-stack e-commerce platform designed to explore and showcas
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/ecommerce-platform.git
-   cd ecommerce-platform
+   git clone https://github.com/amank-04/E-Cart.git
+   cd E-Cart
    ```
 
 2. Install dependencies:
