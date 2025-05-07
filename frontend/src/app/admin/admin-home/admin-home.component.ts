@@ -5,10 +5,9 @@ import { RouterLink } from '@angular/router';
 import { Product } from '../../../../typing';
 
 @Component({
-  selector: 'app-admin-home',
-  standalone: true,
-  imports: [IndNumPipe, RouterLink],
-  templateUrl: './admin-home.component.html',
+    selector: 'app-admin-home',
+    imports: [IndNumPipe, RouterLink],
+    templateUrl: './admin-home.component.html'
 })
 export default class AdminHomeComponent {
   adminService = inject(AdminService);

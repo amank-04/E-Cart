@@ -5,10 +5,9 @@ import { IndNumPipe } from '../../pipes/ind-num.pipe';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-order-card',
-  standalone: true,
-  imports: [RouterLink, IndNumPipe, DatePipe],
-  templateUrl: './order-card.component.html',
+    selector: 'app-order-card',
+    imports: [RouterLink, IndNumPipe, DatePipe],
+    templateUrl: './order-card.component.html'
 })
 export class OrderCardComponent {
   @Input({ required: true }) order!: Order;

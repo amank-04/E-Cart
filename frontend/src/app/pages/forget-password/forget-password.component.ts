@@ -5,10 +5,9 @@ import { AuthService } from '../../services/auth.service';
 import { NotifyService } from '../../services/notify.service';
 
 @Component({
-  selector: 'app-forget-password',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './forget-password.component.html',
+    selector: 'app-forget-password',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './forget-password.component.html'
 })
 export default class ForgetPasswordComponent {
   isLoading = false;

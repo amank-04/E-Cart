@@ -3,10 +3,9 @@ import { NotifyService } from '../../../services/notify.service';
 import { ModalService } from '../../../services/modal.service';
 
 @Component({
-  selector: 'app-contact',
-  standalone: true,
-  imports: [],
-  templateUrl: './contact.component.html',
+    selector: 'app-contact',
+    imports: [],
+    templateUrl: './contact.component.html'
 })
 export class ContactComponent {
   notifyService = inject(NotifyService);

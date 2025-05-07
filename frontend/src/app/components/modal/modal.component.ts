@@ -11,21 +11,20 @@ import { TeamComponent } from '../modalsTemplates/team/team.component';
 import { TechComponent } from '../modalsTemplates/tech/tech.component';
 
 @Component({
-  selector: 'app-modal',
-  standalone: true,
-  imports: [
-    ClickOutsideDirective,
-    PrivacyComponent,
-    TermsComponent,
-    ContactComponent,
-    FaqComponent,
-    ReturnComponent,
-    ShippingComponent,
-    TermsComponent,
-    TechComponent,
-    TeamComponent,
-  ],
-  templateUrl: './modal.component.html',
+    selector: 'app-modal',
+    imports: [
+        ClickOutsideDirective,
+        PrivacyComponent,
+        TermsComponent,
+        ContactComponent,
+        FaqComponent,
+        ReturnComponent,
+        ShippingComponent,
+        TermsComponent,
+        TechComponent,
+        TeamComponent,
+    ],
+    templateUrl: './modal.component.html'
 })
 export class ModalComponent {
   modalService = inject(ModalService);

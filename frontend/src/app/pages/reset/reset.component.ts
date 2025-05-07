@@ -6,10 +6,9 @@ import { AuthService } from '../../services/auth.service';
 import { NotifyService } from '../../services/notify.service';
 
 @Component({
-  selector: 'app-reset',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './reset.component.html',
+    selector: 'app-reset',
+    imports: [ReactiveFormsModule],
+    templateUrl: './reset.component.html'
 })
 export default class ResetComponent implements OnInit {
   isLoading = false;

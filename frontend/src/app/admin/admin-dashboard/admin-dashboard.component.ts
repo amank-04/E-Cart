@@ -4,10 +4,9 @@ import { AuthService } from '../../services/auth.service';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
-  selector: 'app-admin-dashboard',
-  standalone: true,
-  imports: [RouterLink, RouterOutlet, LoadingSpinnerComponent],
-  templateUrl: './admin-dashboard.component.html',
+    selector: 'app-admin-dashboard',
+    imports: [RouterLink, RouterOutlet, LoadingSpinnerComponent],
+    templateUrl: './admin-dashboard.component.html'
 })
 export default class AdminDashboardComponent {
   currentPage = '';

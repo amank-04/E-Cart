@@ -5,10 +5,9 @@ import { AuthService } from '../../services/auth.service';
 import { NotifyService } from '../../services/notify.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './login.component.html',
+    selector: 'app-login',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './login.component.html'
 })
 export default class LoginComponent {
   isLoading = false;

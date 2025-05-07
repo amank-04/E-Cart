@@ -7,15 +7,14 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
-  selector: 'app-admin-orders',
-  standalone: true,
-  imports: [
-    DatePipe,
-    IndNumPipe,
-    ClickOutsideDirective,
-    LoadingSpinnerComponent,
-  ],
-  templateUrl: './admin-orders.component.html',
+    selector: 'app-admin-orders',
+    imports: [
+        DatePipe,
+        IndNumPipe,
+        ClickOutsideDirective,
+        LoadingSpinnerComponent,
+    ],
+    templateUrl: './admin-orders.component.html'
 })
 export default class AdminOrdersComponent {
   loadingState: 'success' | 'loading' | 'error' = 'loading';

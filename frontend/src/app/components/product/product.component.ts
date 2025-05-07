@@ -10,10 +10,9 @@ import { IndNumPipe } from '../../pipes/ind-num.pipe';
 import { NotifyService } from '../../services/notify.service';
 
 @Component({
-  selector: 'app-product',
-  standalone: true,
-  imports: [RouterLink, IndNumPipe],
-  templateUrl: './product.component.html',
+    selector: 'app-product',
+    imports: [RouterLink, IndNumPipe],
+    templateUrl: './product.component.html'
 })
 export class ProductComponent {
   @Input({ required: true }) item!: Product;

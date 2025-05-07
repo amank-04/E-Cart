@@ -7,10 +7,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
-  selector: 'app-orders',
-  standalone: true,
-  imports: [OrderCardComponent, FooterComponent, LoadingSpinnerComponent],
-  templateUrl: './orders.component.html',
+    selector: 'app-orders',
+    imports: [OrderCardComponent, FooterComponent, LoadingSpinnerComponent],
+    templateUrl: './orders.component.html'
 })
 export default class OrdersComponent implements OnInit {
   loadingState: 'success' | 'loading' | 'error' = 'loading';

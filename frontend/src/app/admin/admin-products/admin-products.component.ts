@@ -6,10 +6,9 @@ import { ProductSkeletonComponent } from '../../components/product-skeleton/prod
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-products',
-  standalone: true,
-  imports: [IndNumPipe, ProductSkeletonComponent, RouterLink],
-  templateUrl: './admin-products.component.html',
+    selector: 'app-admin-products',
+    imports: [IndNumPipe, ProductSkeletonComponent, RouterLink],
+    templateUrl: './admin-products.component.html'
 })
 export default class AdminProductsComponent {
   productsList: Product[] = [];

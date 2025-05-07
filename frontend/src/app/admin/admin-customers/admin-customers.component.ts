@@ -4,10 +4,9 @@ import { User } from '../../../../typing';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
-  selector: 'app-admin-customers',
-  standalone: true,
-  imports: [LoadingSpinnerComponent],
-  templateUrl: './admin-customers.component.html',
+    selector: 'app-admin-customers',
+    imports: [LoadingSpinnerComponent],
+    templateUrl: './admin-customers.component.html'
 })
 export default class AdminCustomersComponent {
   loadingState: 'success' | 'loading' | 'error' = 'loading';

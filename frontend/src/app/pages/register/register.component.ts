@@ -6,10 +6,9 @@ import { confirmPasswordValidator } from '../../validators/confirm-password.vali
 import { NotifyService } from '../../services/notify.service';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './register.component.html',
+    selector: 'app-register',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './register.component.html'
 })
 export default class RegisterComponent {
   isLoading = false;

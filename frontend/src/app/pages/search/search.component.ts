@@ -4,10 +4,9 @@ import { ProductsService } from '../../services/products.service';
 import HomeComponent from '../home/home.component';
 
 @Component({
-  selector: 'app-search',
-  standalone: true,
-  imports: [HomeComponent],
-  templateUrl: './search.component.html',
+    selector: 'app-search',
+    imports: [HomeComponent],
+    templateUrl: './search.component.html'
 })
 export default class SearchComponent {
   route = inject(ActivatedRoute);

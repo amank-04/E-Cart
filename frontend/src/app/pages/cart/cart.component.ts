@@ -10,10 +10,9 @@ import { AuthService } from '../../services/auth.service';
 import { CartSkeletonComponent } from '../../components/cart-skeleton/cart-skeleton.component';
 
 @Component({
-  selector: 'app-cart',
-  standalone: true,
-  imports: [RouterLink, FooterComponent, IndNumPipe, CartSkeletonComponent],
-  templateUrl: './cart.component.html',
+    selector: 'app-cart',
+    imports: [RouterLink, FooterComponent, IndNumPipe, CartSkeletonComponent],
+    templateUrl: './cart.component.html'
 })
 export default class CartComponent {
   cartStore = inject(CartStore);

@@ -6,10 +6,9 @@ import { ProductSkeletonComponent } from '../product-skeleton/product-skeleton.c
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-products-feed',
-  standalone: true,
-  imports: [ProductComponent, ProductSkeletonComponent],
-  templateUrl: './products-feed.component.html',
+    selector: 'app-products-feed',
+    imports: [ProductComponent, ProductSkeletonComponent],
+    templateUrl: './products-feed.component.html'
 })
 export default class ProductsFeedComponent {
   products: Product[] = [];

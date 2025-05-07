@@ -7,10 +7,9 @@ import { ProductsService } from '../../services/products.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-reviews',
-  standalone: true,
-  imports: [ShortNumPipe, DatePipe, StarsComponent],
-  templateUrl: './reviews.component.html',
+    selector: 'app-reviews',
+    imports: [ShortNumPipe, DatePipe, StarsComponent],
+    templateUrl: './reviews.component.html'
 })
 export class ReviewsComponent implements OnInit {
   @Input({ required: true }) id!: string;

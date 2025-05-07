@@ -14,16 +14,15 @@ import { NotifyService } from '../../services/notify.service';
 import { ProductDetailsSkeletonComponent } from '../../components/product-details-skeleton/product-details-skeleton.component';
 
 @Component({
-  selector: 'app-product-details',
-  standalone: true,
-  imports: [
-    BannerComponent,
-    FooterComponent,
-    IndNumPipe,
-    ReviewsComponent,
-    ProductDetailsSkeletonComponent,
-  ],
-  templateUrl: './product-details.component.html',
+    selector: 'app-product-details',
+    imports: [
+        BannerComponent,
+        FooterComponent,
+        IndNumPipe,
+        ReviewsComponent,
+        ProductDetailsSkeletonComponent,
+    ],
+    templateUrl: './product-details.component.html'
 })
 export default class ProductDetailsComponent {
   product: ProductDetails | undefined;

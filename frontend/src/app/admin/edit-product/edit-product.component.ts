@@ -13,10 +13,9 @@ import { ProductsService } from '../../services/products.service';
 import { ProductDetails } from '../../../../typing';
 
 @Component({
-  selector: 'app-edit-product',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
-  templateUrl: './edit-product.component.html',
+    selector: 'app-edit-product',
+    imports: [FormsModule, ReactiveFormsModule],
+    templateUrl: './edit-product.component.html'
 })
 export default class EditProductComponent implements OnInit {
   fb = inject(FormBuilder);

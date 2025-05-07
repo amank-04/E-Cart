@@ -9,10 +9,9 @@ import { AdminService } from '../../services/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-add-product',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './admin-add-product.component.html',
+    selector: 'app-admin-add-product',
+    imports: [ReactiveFormsModule],
+    templateUrl: './admin-add-product.component.html'
 })
 export default class AdminAddProductComponent {
   fb = inject(FormBuilder);

@@ -4,9 +4,8 @@ import { BannerComponent } from '../../components/banner/banner.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [ProductsFeedComponent, BannerComponent, FooterComponent],
-  templateUrl: './home.component.html',
+    selector: 'app-home',
+    imports: [ProductsFeedComponent, BannerComponent, FooterComponent],
+    templateUrl: './home.component.html'
 })
 export default class HomeComponent {}

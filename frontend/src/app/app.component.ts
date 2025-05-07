@@ -15,21 +15,20 @@ import { StripeService } from './services/stripe.service';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    NavbarComponent,
-    ProductsFeedComponent,
-    ProductDetailsComponent,
-    RouterLink,
-    CartComponent,
-    ModalComponent,
-    NotificationComponent,
-    CartSkeletonComponent,
-    LoadingSpinnerComponent,
-  ],
-  templateUrl: './app.component.html',
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        NavbarComponent,
+        ProductsFeedComponent,
+        ProductDetailsComponent,
+        RouterLink,
+        CartComponent,
+        ModalComponent,
+        NotificationComponent,
+        CartSkeletonComponent,
+        LoadingSpinnerComponent,
+    ],
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
   cartStore = inject(CartStore);

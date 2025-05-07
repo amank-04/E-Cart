@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-stars',
-  standalone: true,
-  imports: [],
-  templateUrl: './stars.component.html',
+    selector: 'app-stars',
+    imports: [],
+    templateUrl: './stars.component.html'
 })
 export class StarsComponent {
   @Input({ required: true }) rating!: number;
