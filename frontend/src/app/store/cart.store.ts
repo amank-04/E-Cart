@@ -17,7 +17,7 @@ const cartItems: CartItems = {
 };
 
 export const CartStore = signalStore(
-  { providedIn: 'root' },
+  { providedIn: 'root', protectedState: false },
   withState(cartItems),
   withComputed(({ items }) => ({
     totalPrice: computed(() =>
