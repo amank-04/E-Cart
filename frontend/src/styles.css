@@ -1,52 +1,112 @@
 @import "tailwindcss";
 
+@theme {
+  --color-smoke: hsl(44, 36%, 94%);
+  --color-whitesmoke: hsl(0, 0%, 96%);
+  --color-bluesmoke: hsl(213, 52%, 96%);
+  --color-link: hsl(219, 100%, 61%);
+}
+
 .form-input {
-  @apply w-full rounded-lg border-2 border-black/50 bg-white px-3 py-[0.41rem] text-black outline-none transition duration-200;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  background-color: #ffffff;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.41rem;
+  padding-bottom: 0.41rem;
+  color: #000000;
+  outline: none;
+  transition: all 0.2s;
 }
 
 .input-placeholder {
-  @apply unselectable absolute left-3 top-2 cursor-text text-nowrap bg-white px-1 text-black/50 duration-200;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: absolute;
+  left: 0.75rem;
+  top: 0.5rem;
+  cursor: text;
+  white-space: nowrap;
+  background-color: #ffffff;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  color: rgba(0, 0, 0, 0.5);
+  transition: all 0.2s;
 }
 
 .form-input:focus ~ .input-placeholder {
-  @apply -translate-y-[1.3rem] scale-[0.65] transform cursor-default text-black;
+  transform: translateY(-1.3rem) scale(0.65);
+  cursor: default;
+  color: #000000;
 }
 
 .form-input:valid ~ .input-placeholder {
-  @apply -translate-y-[1.3rem] scale-[0.65];
+  transform: translateY(-1.3rem) scale(0.65);
 }
 
 .form-input:focus {
-  @apply border-black text-black;
+  border-color: #000000;
+  color: #000000;
 }
 
 .underline-url {
-  @apply relative inline cursor-pointer font-semibold text-black/50 before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:bg-black/60 before:transition before:duration-300 before:ease-in-out hover:text-black/75 hover:before:origin-bottom-left hover:before:scale-x-100;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
 }
 
+.underline-url::before {
+  content: "";
+  position: absolute;
+  bottom: -0.25rem;
+  height: 2px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-in-out;
+}
+
+.underline-url:hover {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.underline-url:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Make text unselectable */
 .unselectable {
   user-select: none;
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
-/* Chrome, Safari, Edge, Opera */
+/* Hide spin buttons in number inputs */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Hide scroll for Firefox */
 .hide-scroll {
   scrollbar-width: none;
 }
 
+/* Spin animations */
 @keyframes spin {
   to {
     transform: rotate(360deg);

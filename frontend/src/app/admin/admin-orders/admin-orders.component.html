@@ -21,7 +21,7 @@
             </div>
           </div>
 
-          <p class="absolute right-2 top-0 text-xs font-semibold text-black">
+          <p class="absolute top-0 right-2 text-xs font-semibold text-black">
             {{ order.email }}
           </p>
 
@@ -34,7 +34,7 @@
               <button
                 type="button"
                 (click)="toggleMenu(order.id)"
-                class="relative flex max-w-xs items-center space-x-px px-1 py-px text-sm capitalize"               
+                class="relative flex max-w-xs items-center space-x-px px-1 py-px text-sm capitalize"
               >
                 <span>
                   {{ order.status }}
@@ -58,23 +58,23 @@
               <!-- Menu Option -->
               @if (menuOpen === order.id) {
                 <div
-                  class="origin-top- absolute right-0 top-full w-24 rounded-md bg-white text-sm shadow-lg outline-none ring-1 ring-black ring-opacity-5"
+                  class="origin-top- ring-opacity-5 absolute top-full right-0 w-24 rounded-md bg-white text-sm shadow-lg ring-1 ring-black outline-hidden"
                 >
                   <p
-                    class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
+                    class="cursor-pointer border-t border-gray-200 px-2 py-1 hover:bg-gray-100"
                     (click)="changeStatus(order.id, order.status, 'confirmed')"
                   >
                     Confirmed
                   </p>
                   <p
                     (click)="changeStatus(order.id, order.status, 'shipped')"
-                    class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
+                    class="cursor-pointer border-t border-gray-200 px-2 py-1 hover:bg-gray-100"
                   >
                     Shipped
                   </p>
                   <p
                     (click)="changeStatus(order.id, order.status, 'delivered')"
-                    class="cursor-pointer border-t px-2 py-1 hover:bg-gray-100"
+                    class="cursor-pointer border-t border-gray-200 px-2 py-1 hover:bg-gray-100"
                   >
                     Delivered
                   </p>

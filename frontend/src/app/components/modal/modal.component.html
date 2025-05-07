@@ -1,9 +1,9 @@
 @if (modalService.modalType()) {
   <div
-    class="fixed bottom-0 left-0 right-0 top-0 z-20 grid place-items-center bg-black/50"
+    class="fixed top-0 right-0 bottom-0 left-0 z-20 grid place-items-center bg-black/50"
   >
     <div
-      class="relative w-4/5 max-w-[45rem] rounded-lg bg-whitesmoke opacity-100"
+      class="bg-whitesmoke relative w-4/5 max-w-[45rem] rounded-lg opacity-100"
       (clickOutside)="closeModal()"
     >
       @switch (modalService.modalType()) {
@@ -33,7 +33,7 @@
         }
       }
 
-      <button (click)="closeModal()" class="absolute right-5 top-5">
+      <button (click)="closeModal()" class="absolute top-5 right-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

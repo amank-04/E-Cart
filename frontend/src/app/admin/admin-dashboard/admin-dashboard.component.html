@@ -3,12 +3,12 @@
 } @else {
   <div>
     <ul
-      class="hide-scroll mb-4 flex w-full flex-nowrap items-center space-x-1 overflow-x-auto scroll-smooth text-nowrap px-2"
+      class="hide-scroll mb-4 flex w-full flex-nowrap items-center space-x-1 overflow-x-auto scroll-smooth px-2 text-nowrap"
     >
       <li
         (click)="currentPage = 'admin'"
         routerLink="/admin"
-        class="flex cursor-pointer items-center space-x-1 rounded-lg border bg-white px-2 py-1 hover:text-black/55 {{
+        class="flex cursor-pointer items-center space-x-1 rounded-lg border border-gray-200 bg-white px-2 py-1 hover:text-black/55 {{
           currentPage === 'admin' && 'text-black/55'
         }}"
       >
@@ -31,7 +31,7 @@
       <li
         (click)="currentPage = 'products'"
         routerLink="/admin/products"
-        class="flex cursor-pointer items-center space-x-1 rounded-lg border bg-white px-2 py-1 hover:text-black/55 {{
+        class="flex cursor-pointer items-center space-x-1 rounded-lg border border-gray-200 bg-white px-2 py-1 hover:text-black/55 {{
           currentPage === 'products' && 'text-black/55'
         }}"
       >
@@ -55,7 +55,7 @@
       <li
         (click)="currentPage = 'orders'"
         routerLink="/admin/orders"
-        class="flex cursor-pointer items-center space-x-1 rounded-lg border bg-white px-2 py-1 hover:text-black/55 {{
+        class="flex cursor-pointer items-center space-x-1 rounded-lg border border-gray-200 bg-white px-2 py-1 hover:text-black/55 {{
           currentPage === 'orders' && 'text-black/55'
         }}"
       >
@@ -79,7 +79,7 @@
       <li
         (click)="currentPage = 'customers'"
         routerLink="/admin/customers"
-        class="flex cursor-pointer items-center space-x-1 rounded-lg border bg-white px-2 py-1 hover:text-black/55 {{
+        class="flex cursor-pointer items-center space-x-1 rounded-lg border border-gray-200 bg-white px-2 py-1 hover:text-black/55 {{
           currentPage === 'customers' && 'text-black/55'
         }}"
       >
@@ -103,7 +103,7 @@
       <li
         (click)="currentPage = 'add-product'"
         routerLink="/admin/add-product"
-        class="flex cursor-pointer items-center space-x-1 rounded-lg border bg-white px-2 py-1 hover:text-black/55 {{
+        class="flex cursor-pointer items-center space-x-1 rounded-lg border border-gray-200 bg-white px-2 py-1 hover:text-black/55 {{
           currentPage === 'add-product' && 'text-black/55'
         }}"
       >

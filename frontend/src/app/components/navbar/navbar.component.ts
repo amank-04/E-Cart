@@ -8,9 +8,9 @@ import { Product } from '../../../../typing';
 import { IndNumPipe } from '../../pipes/ind-num.pipe';
 
 @Component({
-    selector: 'app-navbar',
-    imports: [RouterLink, ClickOutsideDirective, IndNumPipe],
-    templateUrl: './navbar.component.html'
+  selector: 'app-navbar',
+  imports: [RouterLink, ClickOutsideDirective, IndNumPipe],
+  templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {
   cartStore = inject(CartStore);

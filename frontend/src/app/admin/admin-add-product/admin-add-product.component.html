@@ -1,7 +1,7 @@
 <div class="px-4">
   <form
     [formGroup]="newProductForm"
-    class="mx-auto flex w-full max-w-[35rem] flex-col space-y-[0.65rem] text-nowrap rounded-lg bg-white p-5 shadow-lg sm:px-10"
+    class="mx-auto flex w-full max-w-[35rem] flex-col space-y-[0.65rem] rounded-lg bg-white p-5 text-nowrap shadow-lg sm:px-10"
   >
     <h2 class="text-center text-3xl font-bold">Add New Product</h2>
     <!-- Name -->
@@ -89,7 +89,7 @@
             d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
           />
         </svg>
-        <button class="outline-none">Add image</button>
+        <button class="outline-hidden">Add image</button>
       </legend>
 
       <ng-container formArrayName="imageurls">
@@ -97,7 +97,7 @@
           <label class="relative">
             <input [formControlName]="i" required class="form-input" />
             <span class="input-placeholder">Url {{ i + 1 }}</span>
-            <button (click)="removeImage(i)" class="absolute right-px top-0">
+            <button (click)="removeImage(i)" class="absolute top-0 right-px">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -140,7 +140,7 @@
             d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
           />
         </svg>
-        <button class="outline-none">Add Property</button>
+        <button class="outline-hidden">Add Property</button>
       </legend>
 
       <ng-container formArrayName="details">
