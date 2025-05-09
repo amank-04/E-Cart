@@ -1,8 +1,3 @@
-import { Pool } from "pg";
-import { config } from "dotenv";
+import { PrismaClient } from "../generated/prisma";
 
-config();
-
-const { PGHOST: host, PGUSER: user, PGPASSWORD: password, PGDATABASE: database } = process.env;
-
-export const db = new Pool({ host, port: 5432, user, password, database, ssl: true });
+export const prisma = new PrismaClient();

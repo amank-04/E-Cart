@@ -24,10 +24,14 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         }
         const salt = yield (0, bcrypt_1.genSalt)(10);
         const hashedPassword = yield (0, bcrypt_1.hash)(password, salt);
-        yield db_1.db.query(`INSERT INTO
-    users (first_name, last_name, email, password)
-    VALUES ('${firstName}', '${lastName}', '${email}', 
-    '${hashedPassword}')`);
+        yield db_1.prisma.users.create({
+            data: {
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                password: hashedPassword,
+            },
+        });
         return next((0, success_1.CreateSuccess)(200, "New User Added!"));
     }
     catch (error) {
@@ -41,13 +45,24 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (!email || !password) {
             return next((0, error_1.CreateError)(400, "All fields are required!"));
         }
-        const data = yield db_1.db.query(`SELECT * FROM users
-      WHERE email = '${email}'
-    `);
-        if (!data.rowCount) {
+        const user = yield db_1.prisma.users
+            .findUnique({
+            where: { email },
+        })
+            .then((result) => result
+            ? {
+                id: result.email,
+                firstName: result.first_name,
+                lastName: result.last_name,
+                email: result.email,
+                password: result.password,
+                profile_img: result.profile_img,
+                isAdmin: req.body.user.isAdmin,
+            }
+            : null);
+        if (!user) {
             return next((0, error_1.CreateError)(404, "Wrong Credentials"));
         }
-        const user = data.rows[0];
         const isPasswordCorrect = yield (0, bcrypt_1.compare)(password, user.password);
         if (!isPasswordCorrect) {
             return next((0, error_1.CreateError)(404, "Wrong Credentials"));
@@ -56,6 +71,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         return next((0, success_1.CreateSuccess)(200, "Login Success", { token }));
     }
     catch (error) {
+        console.log(error);
         return next((0, error_1.CreateError)(501, "Internal Server Error!"));
     }
 });
@@ -71,12 +87,30 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             if (err) {
                 return next((0, error_1.CreateError)(500, "Reset Link is Expired!"));
             }
-            const user = yield (yield db_1.db.query(`SELECT * FROM users WHERE email = '${data.email}' LIMIT 1`)).rows[0];
+            const user = yield db_1.prisma.users
+                .findUnique({
+                where: { email: data.email },
+            })
+                .then((result) => result
+                ? {
+                    id: result.email,
+                    firstName: result.first_name,
+                    lastName: result.last_name,
+                    email: result.email,
+                    password: result.password,
+                    profile_img: result.profile_img,
+                    isAdmin: false,
+                }
+                : null);
+            if (!user) {
+                return next((0, error_1.CreateError)(404, "Wrong Credentials"));
+            }
             const salt = yield (0, bcrypt_1.genSalt)(10);
             const encryptedPassword = yield (0, bcrypt_1.hash)(newPassword, salt);
-            yield db_1.db.query(`UPDATE users 
-          SET password = '${encryptedPassword}'
-          WHERE email = '${user.email}'`);
+            yield db_1.prisma.users.update({
+                where: { email: user.email },
+                data: { password: encryptedPassword },
+            });
             return next((0, success_1.CreateSuccess)(200, "Password updated!"));
         }));
     }
@@ -88,13 +122,24 @@ exports.resetPassword = resetPassword;
 const sendEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const email = (req.body.email || "").toLowerCase();
     try {
-        const users = yield db_1.db.query(`SELECT * FROM users
-    WHERE email = '${email}' 
-    LIMIT 1`);
-        if (!users.rowCount) {
+        const user = yield db_1.prisma.users
+            .findUnique({
+            where: { email },
+        })
+            .then((result) => result
+            ? {
+                id: result.email,
+                firstName: result.first_name,
+                lastName: result.last_name,
+                email: result.email,
+                password: result.password,
+                profile_img: result.profile_img,
+                isAdmin: false,
+            }
+            : null);
+        if (!user) {
             return next((0, error_1.CreateError)(404, "Wrong Credentials"));
         }
-        const user = users.rows[0];
         const payload = {
             email: user.email,
         };

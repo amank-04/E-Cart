@@ -26,7 +26,11 @@ const makeid = () => {
 };
 const getAllOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const orders = (yield db_1.db.query(`SELECT * FROM orders ORDER BY placed DESC`)).rows;
+        const orders = yield db_1.prisma.orders.findMany({
+            orderBy: {
+                placed: "desc",
+            },
+        });
         return next((0, success_1.CreateSuccess)(200, "Orders Fetched", {
             orders,
         }));
@@ -39,9 +43,19 @@ const getAllOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
 exports.getAllOrders = getAllOrders;
 const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = (yield db_1.db.query(`SELECT email, 
-    profile_img as imageurl, first_name as firstname, last_name as lastname
-    FROM users`)).rows;
+        const users = (yield db_1.prisma.users.findMany({
+            select: {
+                email: true,
+                profile_img: true,
+                first_name: true,
+                last_name: true,
+            },
+        })).map((user) => ({
+            email: user.email,
+            imageurl: user.profile_img,
+            firstname: user.first_name,
+            lastname: user.last_name,
+        }));
         next((0, success_1.CreateSuccess)(200, "Users Fetched", { users }));
     }
     catch (error) {
@@ -56,9 +70,10 @@ const updateOrderStatus = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         return next((0, error_1.CreateError)(400, "Order not found"));
     }
     try {
-        yield db_1.db.query(`UPDATE orders 
-        SET status = '${newStatus}'
-        WHERE id = ${id}`);
+        yield db_1.prisma.orders.update({
+            where: { id },
+            data: { status: newStatus },
+        });
         next((0, success_1.CreateSuccess)(200, "Status Updated"));
     }
     catch (error) {
@@ -71,21 +86,23 @@ const addNewProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     const { product: { description, details, imageurls, name, originalprice, price, title }, } = req.body;
     const id = makeid();
     try {
-        yield db_1.db.query(`INSERT INTO products
-    (id, name, description, price)
-    VALUES (
-      '${id}', '${name}',
-      '${description}', ${price}
-    )`);
-        const str = JSON.stringify(imageurls);
-        const imgs = "{" + str.slice(1, 1) + str.slice(1, str.length - 1) + "}";
-        yield db_1.db.query(`INSERT INTO product_details
-    (imageurls, title, originalprice, limiteddeaal, product_id, details) VALUES
-    ('${imgs}',
-      '${title}', ${originalprice}, 'f', '${id}',
-      '${JSON.stringify(details)}'
-    )
-  `);
+        yield db_1.prisma.products.create({
+            data: {
+                id,
+                name,
+                description,
+                price,
+            },
+        });
+        yield db_1.prisma.product_details.create({
+            data: {
+                imageurls,
+                title,
+                originalprice,
+                product_id: id,
+                details: JSON.stringify(details),
+            },
+        });
     }
     catch (error) {
         console.log(error);
@@ -97,10 +114,12 @@ exports.addNewProduct = addNewProduct;
 const deleteProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.body;
     try {
-        yield db_1.db.query(`DELETE FROM product_details
-    WHERE product_id = '${id}'`);
-        yield db_1.db.query(`DELETE FROM products
-    WHERE id = '${id}'`);
+        yield db_1.prisma.product_details.deleteMany({
+            where: { product_id: id },
+        });
+        yield db_1.prisma.products.delete({
+            where: { id },
+        });
     }
     catch (error) {
         console.log(error);
@@ -115,21 +134,23 @@ const updateProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         .product;
     const originalprice = req.body.product.originalPrice;
     try {
-        yield db_1.db.query(`UPDATE products
-    SET name = '${name}',
-        description = '${description}',
-        price = ${price}
-    WHERE id = '${id}'
-    `);
-        const str = JSON.stringify(imageurls);
-        const imgs = "{" + str.slice(1, 1) + str.slice(1, str.length - 1) + "}";
-        yield db_1.db.query(`UPDATE product_details
-    SET imageurls = '${imgs}',
-        details = '${JSON.stringify(details)}',
-        originalprice = ${originalprice},
-        title = '${title}'
-    WHERE product_id = '${id}'
-    `);
+        yield db_1.prisma.products.update({
+            where: { id },
+            data: {
+                name,
+                description,
+                price,
+            },
+        });
+        yield db_1.prisma.product_details.updateMany({
+            where: { product_id: id },
+            data: {
+                imageurls,
+                details: JSON.stringify(details),
+                originalprice,
+                title,
+            },
+        });
     }
     catch (error) {
         console.log(error);

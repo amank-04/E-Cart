@@ -11,6 +11,7 @@
     "stage": "tsc && git status && git add ."
   },
   "dependencies": {
+    "@prisma/client": "^6.7.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -30,6 +31,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/pg": "^8.11.5",
     "nodemon": "^3.1.0",
+    "prisma": "^6.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }

@@ -15,7 +15,7 @@ const error_1 = require("../utils/error");
 const success_1 = require("../utils/success");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = (yield db_1.db.query("SELECT * FROM users")).rows;
+        const users = yield db_1.prisma.users.findMany();
         res.json({ message: "All users", users });
     }
     catch (error) {
@@ -26,12 +26,13 @@ exports.getAllUsers = getAllUsers;
 const getUserById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const email = req.params.id;
-        const users = (yield db_1.db.query(`SELECT * FROM users
-      WHERE email = '${email}'`)).rows;
-        if (!users.length) {
+        const user = yield db_1.prisma.users.findUnique({
+            where: { email },
+        });
+        if (!user) {
             return next((0, error_1.CreateError)(404, "User Not Found"));
         }
-        return next((0, success_1.CreateSuccess)(200, "User Details Found", { data: users[0] }));
+        return next((0, success_1.CreateSuccess)(200, "User Details Found", { data: user }));
     }
     catch (error) {
         return next((0, error_1.CreateError)(500, "Something went wrong!!"));
@@ -44,10 +45,9 @@ const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         return next((0, error_1.CreateError)(400, "All fields are required!!"));
     }
     try {
-        yield db_1.db.query(`
-      DELETE FROM users
-      WHERE email = '${email}'
-    `);
+        yield db_1.prisma.users.delete({
+            where: { email },
+        });
         return next((0, success_1.CreateSuccess)(200, "User Deleted"));
     }
     catch (error) {

@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import { db } from "./db/db";
+import { prisma } from "./db/db";
 import productRouter from "./routes/products";
 import cartRouter from "./routes/cart";
 import authRouter from "./routes/auth";
@@ -15,7 +15,7 @@ const PORT = 3000;
 
 app.use(
   cors({
-    origin: process.env.HOST,
+    origin: process.env.HOST ?? "*",
   })
 );
 app.use(express.json());
@@ -33,6 +33,7 @@ app.use("/api/admin/", adminRouter);
 app.use((obj: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = obj.status || 500;
   const message = obj.message || "Something went wrong!";
+
   return res.status(statusCode).json({
     success: [200, 201, 204].some((a) => a === obj.status),
     status: statusCode,
@@ -41,27 +42,14 @@ app.use((obj: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-const query = async () => {
-  try {
-    const data = await db.query(`
-      ALTER TABLE product_details
-      DROP COLUMN limiteddeaal;
-    `);
-    console.log(data.rows);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// query();
-
 // Database
-db.connect()
+prisma
+  .$connect()
   .then(() => console.log("🟢 Connected to Database"))
   .catch(() => console.log("❌ Database Connection Failed"));
 
 setInterval(() => {
-  db.query("");
+  prisma.$queryRawUnsafe("");
 }, 290000);
 
 app.listen(PORT, () => {

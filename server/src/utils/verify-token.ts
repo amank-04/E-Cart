@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { CreateError } from "./error";
 import { CreateSuccess } from "./success";
-import { db } from "../db/db";
+import { prisma } from "../db/db";
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const token: string = req.body.token ?? "";
@@ -35,17 +35,26 @@ export const verifyAdmin = async (req: Request, res: Response, next: NextFunctio
 export const getUserDetails = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = req.body.user;
-    const userDeatils = (
-      await db.query(`SELECT     
-        first_name as firstName, 
-        last_name as lastName, 
-        email, profile_img as imageUrl
-        FROM users
-        WHERE email = '${user.email}'
-    `)
-    ).rows[0];
+    const { isAdmin, email, first_name, last_name, profile_img } = {
+      ...(await prisma.users.findUnique({
+        where: { email: user.email },
+        select: {
+          first_name: true,
+          last_name: true,
+          email: true,
+          profile_img: true,
+        },
+      })),
+      isAdmin: false,
+    };
 
-    userDeatils.isAdmin = user.email === (process.env.ADMIN_ID as string);
+    const userDeatils = {
+      email,
+      firstname: first_name,
+      lastname: last_name,
+      isAdmin: user.email === (process.env.ADMIN_ID as string),
+      imageurl: profile_img,
+    };
 
     return next(CreateSuccess(200, "Authentication Success", { user: userDeatils }));
   } catch (error) {

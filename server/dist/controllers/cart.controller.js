@@ -16,14 +16,40 @@ const error_1 = require("../utils/error");
 const getAllCartItems = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.user.email;
     try {
-        const cartItems = yield db_1.db.query(`SELECT pd.product_id as id, c.selected, p.description,
-      c.count, p.name, p.price, pd.imageurls[1] imageurl 
-      FROM carts c
-      JOIN products p ON p.id = c.product_id
-      JOIN product_details pd ON c.product_id = pd.product_id
-      WHERE c.user_email = '${email}'
-      `);
-        return next((0, success_1.CreateSuccess)(200, "Cart Items", cartItems.rows));
+        const cartItems = yield db_1.prisma.carts
+            .findMany({
+            where: { user_email: email },
+            select: {
+                product_id: true,
+                selected: true,
+                count: true,
+                products: {
+                    select: {
+                        description: true,
+                        name: true,
+                        price: true,
+                        product_details: {
+                            select: {
+                                imageurls: true,
+                            },
+                        },
+                    },
+                },
+            },
+        })
+            .then((items) => items.map(({ products, product_id, selected, count }) => {
+            var _a, _b;
+            return ({
+                id: product_id,
+                imageurl: (_b = (_a = products.product_details[0]) === null || _a === void 0 ? void 0 : _a.imageurls[0]) !== null && _b !== void 0 ? _b : "",
+                selected,
+                description: products.description,
+                count,
+                name: products.name,
+                price: products.price,
+            });
+        }));
+        return next((0, success_1.CreateSuccess)(200, "Cart Items", cartItems));
     }
     catch (error) {
         console.log(error);
@@ -38,10 +64,14 @@ const createCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         return next((0, error_1.CreateError)(401, "You are not authenticated!"));
     }
     try {
-        yield db_1.db.query(`
-      INSERT INTO carts (count, product_id, user_email, selected) 
-      VALUES (${item.count}, '${item.p_id}', '${email}', ${item.selected})
-    `);
+        yield db_1.prisma.carts.create({
+            data: {
+                count: item.count,
+                product_id: item.p_id,
+                user_email: email,
+                selected: item.selected,
+            },
+        });
         return next((0, success_1.CreateSuccess)(200, "Cart Item Added"));
     }
     catch (error) {
@@ -57,10 +87,16 @@ const updateCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         return next((0, error_1.CreateError)(401, "You are not authenticated!"));
     }
     try {
-        yield db_1.db.query(`UPDATE carts 
-      SET selected = ${item.selected}, count = ${item.count}
-      WHERE product_id = '${item.p_id}' AND user_email = '${email}';
-      `);
+        yield db_1.prisma.carts.updateMany({
+            where: {
+                product_id: item.p_id,
+                user_email: email,
+            },
+            data: {
+                selected: item.selected,
+                count: item.count,
+            },
+        });
         return next((0, success_1.CreateSuccess)(200, "Cart Item Updated"));
     }
     catch (error) {
@@ -76,9 +112,12 @@ const deleteCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         return next((0, error_1.CreateError)(401, "You are not authenticated!"));
     }
     try {
-        yield db_1.db.query(`DELETE FROM carts 
-        WHERE product_id = '${p_id}' 
-        AND user_email = '${email}'`);
+        yield db_1.prisma.carts.deleteMany({
+            where: {
+                product_id: p_id,
+                user_email: email,
+            },
+        });
         return next((0, success_1.CreateSuccess)(200, "Cart Item Deleted"));
     }
     catch (error) {
@@ -94,9 +133,14 @@ const selectAllCartItems = (req, res, next) => __awaiter(void 0, void 0, void 0,
         return (0, error_1.CreateError)(401, "You are not authenticated!");
     }
     try {
-        yield db_1.db.query(`UPDATE carts 
-      SET selected = ${selectedState}
-      WHERE user_email = '${email}'`);
+        yield db_1.prisma.carts.updateMany({
+            where: {
+                user_email: email,
+            },
+            data: {
+                selected: selectedState,
+            },
+        });
         return next((0, success_1.CreateSuccess)(200, "Cart Items Updated"));
     }
     catch (error) {
@@ -111,7 +155,11 @@ const clearAllCart = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         return next((0, error_1.CreateError)(401, "You are not authenticated!"));
     }
     try {
-        yield db_1.db.query(`DELETE FROM carts WHERE user_email = '${email}'`);
+        yield db_1.prisma.carts.deleteMany({
+            where: {
+                user_email: email,
+            },
+        });
         return next((0, success_1.CreateSuccess)(200, "Cart Cleared"));
     }
     catch (error) {
