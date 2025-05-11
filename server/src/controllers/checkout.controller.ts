@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Stripe from "stripe";
 import { CreateError } from "../utils/error";
 import { CreateSuccess } from "../utils/success";
-import { db } from "../db/db";
+import { prisma } from "../db/db";
 import { OrderItem } from "../models/Orders.model";
 const stripe = new Stripe(process.env.STRIPE_SECRET as string);
 
@@ -36,11 +36,15 @@ export const createCheckout = async (req: Request, res: Response, next: NextFunc
     const products = JSON.stringify(orderdItems);
     const { amount_total, id, customer_email } = session;
 
-    await db.query(`INSERT INTO orders
-    (total, user_email, products) VALUES 
-    (${amount_total! / 100}, '${customer_email}', '${products}')`);
+    await prisma.orders.create({
+      data: {
+        total: amount_total! / 100,
+        user_email: customer_email ?? "",
+        products,
+      },
+    });
 
-    return next(CreateSuccess(201, "Checkout Completed", { id: session.id }));
+    return next(CreateSuccess(201, "Checkout Completed", { id }));
   } catch (error) {
     console.log(error);
     next(CreateError(501, "Stripe Payment Error!"));

@@ -50,14 +50,22 @@ exports.verifyAdmin = verifyAdmin;
 const getUserDetails = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = req.body.user;
-        const userDeatils = (yield db_1.db.query(`SELECT     
-        first_name as firstName, 
-        last_name as lastName, 
-        email, profile_img as imageUrl
-        FROM users
-        WHERE email = '${user.email}'
-    `)).rows[0];
-        userDeatils.isAdmin = user.email === process.env.ADMIN_ID;
+        const { isAdmin, email, first_name, last_name, profile_img } = Object.assign(Object.assign({}, (yield db_1.prisma.users.findUnique({
+            where: { email: user.email },
+            select: {
+                first_name: true,
+                last_name: true,
+                email: true,
+                profile_img: true,
+            },
+        }))), { isAdmin: false });
+        const userDeatils = {
+            email,
+            firstname: first_name,
+            lastname: last_name,
+            isAdmin: user.email === process.env.ADMIN_ID,
+            imageurl: profile_img,
+        };
         return next((0, success_1.CreateSuccess)(200, "Authentication Success", { user: userDeatils }));
     }
     catch (error) {

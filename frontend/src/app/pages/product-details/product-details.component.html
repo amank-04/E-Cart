@@ -58,7 +58,7 @@
           </ul>
 
           <div
-            class="grid h-full w-full place-items-center rounded-lg bg-white"
+            class="grid h-full w-full place-items-center rounded-lg"
           >
             <img
               class="w-64 rounded-xl object-contain"
@@ -70,12 +70,12 @@
         </div>
 
         <!-- Title & Purchase -->
-        <div class="flex-1 space-y-2 px-4 md:pl-16">
+        <div class="flex-1 divide-gray-300 space-y-2 px-4 md:pl-16">
           <h1 class="hidden text-2xl font-bold md:block">
             {{ product?.title }}
           </h1>
           <div
-            class="hidden items-center space-x-7 text-sm *:cursor-pointer md:flex"
+            class="hidden border-b items-center space-x-7 text-sm *:cursor-pointer md:flex"
           >
             @if (product?.reviews && product!.reviews > 0) {
               <p class="my-2 flex items-center">
@@ -100,7 +100,6 @@
             }
           </div>
 
-          <hr />
           <!-- Price -->
           <div class="py-2">
             <div class="flex space-x-3 text-2xl">
@@ -161,11 +160,9 @@
       </div>
 
       <!-- Discription -->
-      <div class="p-5">
-        <hr class="" />
+      <div class="m-5 border-y border-gray-300">
         <h4 class="mt-6 font-bold">Product Description</h4>
         <p class="px-10 py-3 text-sm">{{ product?.description }}</p>
-        <hr />
       </div>
 
       <!-- Specifications -->

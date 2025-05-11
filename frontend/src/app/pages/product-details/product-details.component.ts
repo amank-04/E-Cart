@@ -46,6 +46,7 @@ export default class ProductDetailsComponent {
           this.router.navigateByUrl('/Product-Not-Found');
         } else {
           this.product = res.data;
+          console.log(this.product)
           this.loadingState = 'success';
           this.currentImage = res.data.imageurls[0];
         }

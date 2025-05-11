@@ -44,10 +44,14 @@ const createCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
         const products = JSON.stringify(orderdItems);
         const { amount_total, id, customer_email } = session;
-        yield db_1.db.query(`INSERT INTO orders
-    (total, user_email, products) VALUES 
-    (${amount_total / 100}, '${customer_email}', '${products}')`);
-        return next((0, success_1.CreateSuccess)(201, "Checkout Completed", { id: session.id }));
+        yield db_1.prisma.orders.create({
+            data: {
+                total: amount_total / 100,
+                user_email: customer_email !== null && customer_email !== void 0 ? customer_email : "",
+                products,
+            },
+        });
+        return next((0, success_1.CreateSuccess)(201, "Checkout Completed", { id }));
     }
     catch (error) {
         console.log(error);

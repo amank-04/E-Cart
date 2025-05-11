@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../models/User.model";
-import { db } from "../db/db";
+import { prisma } from "../db/db";
 import { compare, genSalt, hash } from "bcrypt";
-import { QueryResult } from "pg";
 import { sign, verify } from "jsonwebtoken";
 import { createTransport } from "nodemailer";
 import { CreateError } from "../utils/error";
@@ -19,10 +18,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     const salt = await genSalt(10);
     const hashedPassword = await hash(password, salt);
 
-    await db.query(`INSERT INTO
-    users (first_name, last_name, email, password)
-    VALUES ('${firstName}', '${lastName}', '${email}', 
-    '${hashedPassword}')`);
+    await prisma.users.create({
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password: hashedPassword,
+      },
+    });
 
     return next(CreateSuccess(200, "New User Added!"));
   } catch (error: any) {
@@ -38,15 +41,28 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       return next(CreateError(400, "All fields are required!"));
     }
 
-    const data: QueryResult<User> = await db.query(`SELECT * FROM users
-      WHERE email = '${email}'
-    `);
+    const user: User | null = await prisma.users
+      .findUnique({
+        where: { email },
+      })
+      .then((result) =>
+        result
+          ? {
+              id: result.email,
+              firstName: result.first_name,
+              lastName: result.last_name,
+              email: result.email,
+              password: result.password,
+              profile_img: result.profile_img,
+              isAdmin: req.body?.user?.isAdmin,
+            }
+          : null
+      );
 
-    if (!data.rowCount) {
+    if (!user) {
       return next(CreateError(404, "Wrong Credentials"));
     }
 
-    const user = data.rows[0];
     const isPasswordCorrect = await compare(password, user.password);
 
     if (!isPasswordCorrect) {
@@ -56,6 +72,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
     return next(CreateSuccess(200, "Login Success", { token }));
   } catch (error) {
+    console.log(error);
     return next(CreateError(501, "Internal Server Error!"));
   }
 };
@@ -73,16 +90,35 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
         return next(CreateError(500, "Reset Link is Expired!"));
       }
 
-      const user: User = await (
-        await db.query(`SELECT * FROM users WHERE email = '${data.email}' LIMIT 1`)
-      ).rows[0];
+      const user: User | null = await prisma.users
+        .findUnique({
+          where: { email: data.email },
+        })
+        .then((result) =>
+          result
+            ? {
+                id: result.email,
+                firstName: result.first_name,
+                lastName: result.last_name,
+                email: result.email,
+                password: result.password,
+                profile_img: result.profile_img,
+                isAdmin: false,
+              }
+            : null
+        );
+
+      if (!user) {
+        return next(CreateError(404, "Wrong Credentials"));
+      }
 
       const salt = await genSalt(10);
       const encryptedPassword = await hash(newPassword, salt);
 
-      await db.query(`UPDATE users 
-          SET password = '${encryptedPassword}'
-          WHERE email = '${user.email}'`);
+      await prisma.users.update({
+        where: { email: user.email },
+        data: { password: encryptedPassword },
+      });
 
       return next(CreateSuccess(200, "Password updated!"));
     });
@@ -95,15 +131,28 @@ export const sendEmail = async (req: Request, res: Response, next: NextFunction)
   const email = ((req.body.email as string) || "").toLowerCase();
 
   try {
-    const users: QueryResult<User> = await db.query(`SELECT * FROM users
-    WHERE email = '${email}' 
-    LIMIT 1`);
+    const user: User | null = await prisma.users
+      .findUnique({
+        where: { email },
+      })
+      .then((result) =>
+        result
+          ? {
+              id: result.email,
+              firstName: result.first_name,
+              lastName: result.last_name,
+              email: result.email,
+              password: result.password,
+              profile_img: result.profile_img,
+              isAdmin: false,
+            }
+          : null
+      );
 
-    if (!users.rowCount) {
+    if (!user) {
       return next(CreateError(404, "Wrong Credentials"));
     }
 
-    const user = users.rows[0];
     const payload = {
       email: user.email,
     };
