@@ -49,17 +49,20 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             .findUnique({
             where: { email },
         })
-            .then((result) => result
-            ? {
-                id: result.email,
-                firstName: result.first_name,
-                lastName: result.last_name,
-                email: result.email,
-                password: result.password,
-                profile_img: result.profile_img,
-                isAdmin: req.body.user.isAdmin,
-            }
-            : null);
+            .then((result) => {
+            var _a, _b;
+            return result
+                ? {
+                    id: result.email,
+                    firstName: result.first_name,
+                    lastName: result.last_name,
+                    email: result.email,
+                    password: result.password,
+                    profile_img: result.profile_img,
+                    isAdmin: (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b.isAdmin,
+                }
+                : null;
+        });
         if (!user) {
             return next((0, error_1.CreateError)(404, "Wrong Credentials"));
         }

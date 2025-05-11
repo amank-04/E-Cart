@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../models/User.model";
 import { prisma } from "../db/db";
 import { compare, genSalt, hash } from "bcrypt";
-import { QueryResult } from "pg";
 import { sign, verify } from "jsonwebtoken";
 import { createTransport } from "nodemailer";
 import { CreateError } from "../utils/error";
@@ -55,7 +54,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
               email: result.email,
               password: result.password,
               profile_img: result.profile_img,
-              isAdmin: req.body.user.isAdmin,
+              isAdmin: req.body?.user?.isAdmin,
             }
           : null
       );

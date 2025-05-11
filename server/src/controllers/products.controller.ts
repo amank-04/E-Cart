@@ -89,6 +89,10 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
     const reviewCount = reviews.length;
     const avgRating = reviewCount > 0 ? Number((ratingSum / reviewCount).toFixed(1)) : null;
 
+    if (typeof product_details[0].details === 'string') {
+      product_details[0].details = JSON.parse(product_details[0].details)
+    }
+
     const result = {
       name,
       description,

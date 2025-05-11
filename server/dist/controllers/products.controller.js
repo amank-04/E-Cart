@@ -91,6 +91,9 @@ const getProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         const ratingSum = reviews.reduce((sum, r) => sum + r.rating, 0);
         const reviewCount = reviews.length;
         const avgRating = reviewCount > 0 ? Number((ratingSum / reviewCount).toFixed(1)) : null;
+        if (typeof product_details[0].details === 'string') {
+            product_details[0].details = JSON.parse(product_details[0].details);
+        }
         const result = {
             name,
             description,
@@ -174,9 +177,9 @@ const addProductReview = (req, res, next) => __awaiter(void 0, void 0, void 0, f
 });
 exports.addProductReview = addProductReview;
 const getSearchedProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _d;
+    var _a;
     try {
-        const term = (_d = req.query.term) !== null && _d !== void 0 ? _d : "";
+        const term = (_a = req.query.term) !== null && _a !== void 0 ? _a : "";
         const limit = req.query.limit;
         if (!term) {
             return next((0, error_1.CreateError)(400, "Please enter a search term"));
