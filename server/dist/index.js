@@ -29,6 +29,9 @@ app.use("/api/users", users_1.default);
 app.use("/api/checkout", checkout_1.default);
 app.use("/api/orders", orders_1.default);
 app.use("/api/admin/", admin_1.default);
+app.use("/", (_, res) => {
+    return res.json({ status: 200, message: "OK" });
+});
 // Response Handler Middleware
 app.use((obj, req, res, next) => {
     const statusCode = obj.status || 500;

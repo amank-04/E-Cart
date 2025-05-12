@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import Stripe from "stripe";
 import { CreateError } from "../utils/error";
 import { CreateSuccess } from "../utils/success";
-import { prisma } from "../db/db";
 import { OrderItem } from "../models/Orders.model";
+import { prisma } from "../db/db";
 const stripe = new Stripe(process.env.STRIPE_SECRET as string);
 
 export const createCheckout = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +33,7 @@ export const createCheckout = async (req: Request, res: Response, next: NextFunc
       cancel_url: origin,
     });
 
-    const products = JSON.stringify(orderdItems);
+    const products = typeof orderdItems === 'string' ? JSON.parse(orderdItems) : orderdItems;
     const { amount_total, id, customer_email } = session;
 
     await prisma.orders.create({

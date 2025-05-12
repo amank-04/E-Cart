@@ -42,7 +42,7 @@ const createCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             success_url: origin + "/checkout/success?session_id={CHECKOUT_SESSION_ID}",
             cancel_url: origin,
         });
-        const products = JSON.stringify(orderdItems);
+        const products = typeof orderdItems === 'string' ? JSON.parse(orderdItems) : orderdItems;
         const { amount_total, id, customer_email } = session;
         yield db_1.prisma.orders.create({
             data: {

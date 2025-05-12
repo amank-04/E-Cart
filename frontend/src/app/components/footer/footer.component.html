@@ -1,17 +1,16 @@
-<div class="w-full bg-whitesmoke">
+<div class="bg-whitesmoke w-full">
   <!-- Copyright, Terms & Privacy -->
   <div
-    class="max-w flex flex-col items-center space-y-5 border-t border-smoke bg-white px-4 py-3 text-sm md:flex-row md:justify-between"
-  >
+    class="max-w border-smoke flex flex-col items-center space-y-3 border-t bg-white px-4 py-3 text-sm md:flex-row md:justify-between md:space-y-0">
     <h2 class="flex-1 font-semibold text-black/25">
       Copyright &copy; 2024 E-Cart. All Rights Reserved
     </h2>
 
     <ul class="flex items-center space-x-10">
-      <li (click)="modalService.setModal('terms')" class="-mt-4">
+      <li (click)="modalService.setModal('terms')">
         <p class="underline-url">Terms of Service</p>
       </li>
-      <li (click)="modalService.setModal('privacy')" class="-mt-4">
+      <li (click)="modalService.setModal('privacy')">
         <p class="underline-url">Privacy Policy</p>
       </li>
     </ul>
