@@ -29,6 +29,10 @@ app.use("/api/checkout", checkoutRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/admin/", adminRouter);
 
+app.use("/", (_, res) => {
+  return res.json({ status: 200, message: "OK"})
+});
+
 // Response Handler Middleware
 app.use((obj: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = obj.status || 500;

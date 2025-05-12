@@ -7,7 +7,7 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
   const email = req.body.user.email;
 
   try {
-    const orders = await prisma.orders.findMany({
+    let orders = await prisma.orders.findMany({
       where: {
         user_email: email,
       },
@@ -15,6 +15,10 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
         placed: "desc",
       },
     });
+    
+    if (typeof orders === 'string') {
+      orders = JSON.parse(orders)
+    }
 
     return next(CreateSuccess(200, "Orders Fetched", orders));
   } catch (error) {

@@ -16,7 +16,7 @@ const success_1 = require("../utils/success");
 const getOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.user.email;
     try {
-        const orders = yield db_1.prisma.orders.findMany({
+        let orders = yield db_1.prisma.orders.findMany({
             where: {
                 user_email: email,
             },
@@ -24,6 +24,9 @@ const getOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 placed: "desc",
             },
         });
+        if (typeof orders === 'string') {
+            orders = JSON.parse(orders);
+        }
         return next((0, success_1.CreateSuccess)(200, "Orders Fetched", orders));
     }
     catch (error) {
